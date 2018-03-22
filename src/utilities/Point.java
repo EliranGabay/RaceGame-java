@@ -1,29 +1,21 @@
 package utilities;
 
 public class Point {
-    private static  double x;
-    private static  double y;
+    private final  double x;
+    private final  double y;
 
-    public Point(double x,double y)
+    public Point(double x, double y, double x1, double y1)
     {
-        setX(x);
-        setY(y);
+        this.x = x1;
+        this.y = y1;
     }
 
     public double getX() {
         return x;
     }
 
-    private void setX(double x) {
-        Point.x = x;
-    }
-
     public double getY() {
         return y;
-    }
-
-    private void setY(double y) {
-        Point.y = y;
     }
 
 }
