@@ -1,5 +1,5 @@
 package utilities;
-
+/*
 import game.GameEngine;
 import game.arenas.AerialArena;
 import game.racers.Airplane;
@@ -39,7 +39,7 @@ public class EgProgram {
 		game.initRace();
 		game.startRace();
 	}
-}
+}*/
 /*
 Aerial Race ended!
 #1: Airplane John (175.0, 20.0)
