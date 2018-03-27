@@ -15,6 +15,11 @@ public class Helicopter {
         this.acceleration = acceleration;
     }
 
+    public Helicopter(String name)
+    {
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }

@@ -15,6 +15,11 @@ public class Airplane {
         this.acceleration = acceleration;
     }
 
+    public Airplane(String name)
+    {
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }
