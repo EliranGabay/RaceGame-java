@@ -15,6 +15,11 @@ public class Car {
         this.acceleration = acceleration;
     }
 
+    public Car(String name)
+    {
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }
