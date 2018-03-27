@@ -1,11 +1,12 @@
 package game.racers;
 
+import game.arenas.AerialArena;
 import utilities.Point;
 
 public class Airplane {
     private  String name;
     private Point currentLocation,finish;
-    private  Object arena;
+    private AerialArena arena;
     private  double maxSpeed,acceleration,currentSpeed;
 
     public Airplane(String name, double maxSpeed, double acceleration)
@@ -24,7 +25,7 @@ public class Airplane {
         return name;
     }
 
-    public void setName(String name) {
+    private void setName(String name) {
         this.name = name;
     }
 
@@ -32,7 +33,7 @@ public class Airplane {
         return currentLocation;
     }
 
-    public void setCurrentLocation(Point currentLocation) {
+    private void setCurrentLocation(Point currentLocation) {
         this.currentLocation = currentLocation;
     }
 
@@ -40,15 +41,15 @@ public class Airplane {
         return finish;
     }
 
-    public void setFinish(Point finish) {
+    private void setFinish(Point finish) {
         this.finish = finish;
     }
 
-    public Object getArena() {
+    public AerialArena getArena() {
         return arena;
     }
 
-    public void setArena(Object arena) {
+    private void setArena(AerialArena arena) {
         this.arena = arena;
     }
 
@@ -56,7 +57,7 @@ public class Airplane {
         return maxSpeed;
     }
 
-    public void setMaxSpeed(double maxSpeed) {
+    private void setMaxSpeed(double maxSpeed) {
         this.maxSpeed = maxSpeed;
     }
 
@@ -64,7 +65,7 @@ public class Airplane {
         return acceleration;
     }
 
-    public void setAcceleration(double acceleration) {
+    private void setAcceleration(double acceleration) {
         this.acceleration = acceleration;
     }
 
@@ -72,12 +73,21 @@ public class Airplane {
         return currentSpeed;
     }
 
-    public void setCurrentSpeed(double currentSpeed) {
+    private void setCurrentSpeed(double currentSpeed) {
         this.currentSpeed = currentSpeed;
     }
 
-    void initRace(Object arena, Point start, Point finish)
+    public void initRace(AerialArena arena, Point start, Point finish)
     {
+        setArena(arena);
+        setCurrentLocation(start);
+        setFinish(finish);
+    }
 
+    public Point move(double friction)
+    {
+        if(currentSpeed<maxSpeed) currentSpeed+=acceleration*friction;
+        currentLocation.setX(currentLocation.getX()+currentSpeed);
+        return currentLocation;
     }
 }

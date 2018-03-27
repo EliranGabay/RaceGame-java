@@ -1,13 +1,13 @@
 package utilities;
 
 public class Point {
-    private final  double x;
-    private final  double y;
+    private  double x;
+    private  double y;
 
-    public Point(double x, double y, double x1, double y1)
+    public Point(double x, double y)
     {
-        this.x = x1;
-        this.y = y1;
+        this.x = x;
+        this.y = y;
     }
 
     public double getX() {
@@ -16,6 +16,14 @@ public class Point {
 
     public double getY() {
         return y;
+    }
+
+    public void setX(double x) {
+        this.x=x;
+    }
+
+    public void setY(double y) {
+        this.y=y;
     }
 
 }
