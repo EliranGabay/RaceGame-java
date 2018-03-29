@@ -13,7 +13,7 @@ public class AerialArena {
 	private final int MAX_RACERS = 6;
 	private Point start;
 	private Point finish;
-	
+	//constructor
 	public AerialArena(Point start, Point finish) {
 		this.start = new Point(start);
 		this.finish = new Point(finish);
