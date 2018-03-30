@@ -23,7 +23,7 @@ public class AerialArena {
 
 	//Airplane
 	public boolean addAirplane(Airplane airplane) {
-		for(Airplane plane : airplanes)
+		for(Airplane plane : airplanes)//שימי לב לשינוי מחרוזות משווים עם EQUALS
 		{
 			if (plane.getName().equals(airplane.getName()) || (airplanes.size()> MAX_RACERS))
 			{
@@ -45,20 +45,20 @@ public class AerialArena {
 	}
 	
 	public boolean hasActiveRacers() {
-		boolean hasActive = true;
+		boolean hasActive = true;//שימי לב לשינוי בדיקה עם כל המטוסים סיימו את המירוץ צריך להוסיף למסוקים
 		if (finished.size()==airplanes.size())
 			hasActive = false;
 		return hasActive;
 	}
 	
-	public void initRace() {
+	public void initRace() {//צריך להוסיף למסוקים
 		for(Airplane plane : airplanes) {
 			plane.initRace(this, start, finish);
 		}
 	}
 	
 	public void playTurn() {
-		if (hasActiveRacers()) {
+		if (hasActiveRacers()) {//צריך להוסיף למסוקים
 			for(Airplane plane : airplanes){
 				plane.move(FRICTION);
 				if (plane.isFinished()) {
@@ -68,7 +68,7 @@ public class AerialArena {
 		}
 	}
 	
-	public void printWinners() {
+	public void printWinners() {//שימי לב לשינוי צריך להוסיף למסוקים
 		for(int i=0; i<finished.size();i++) {
 				if(finished.get(i) instanceof Airplane)System.out.println("#" + (i + 1) + ":  " +((Airplane) finished.get(i)).getName());
 			}
