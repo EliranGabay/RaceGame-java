@@ -9,6 +9,7 @@ public class Airplane {
     private AerialArena arena;
     private  double maxSpeed,acceleration,currentSpeed;
 
+    //constructor
     public Airplane(String name, double maxSpeed, double acceleration)
     {
         this.name = name;
@@ -89,5 +90,11 @@ public class Airplane {
         if(currentSpeed<maxSpeed) currentSpeed+=acceleration*friction;
         currentLocation.setX(currentLocation.getX()+currentSpeed);
         return currentLocation;
+    }
+
+    public  boolean isFinished()
+    {
+        if(getCurrentLocation().getX()==getFinish().getX()) return true;
+        else return false;
     }
 }
