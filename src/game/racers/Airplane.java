@@ -35,7 +35,7 @@ public class Airplane {
     }
 
     private void setCurrentLocation(Point currentLocation) {
-        this.currentLocation = currentLocation;
+        this.currentLocation=new Point(currentLocation);
     }
 
     public Point getFinish() {
@@ -87,14 +87,14 @@ public class Airplane {
 
     public Point move(double friction)
     {
-        if(currentSpeed<maxSpeed) currentSpeed+=acceleration*friction;
-        currentLocation.setX(currentLocation.getX()+currentSpeed);
+        if(this.currentSpeed<this.maxSpeed) this.currentSpeed+=this.acceleration*friction;
+        this.currentLocation.setX(this.currentLocation.getX()+this.currentSpeed);
         return currentLocation;
     }
 
     public  boolean isFinished()
     {
-        if(getCurrentLocation().getX()==getFinish().getX()) return true;
-        else return false;
+        if(getCurrentLocation().getX()<getFinish().getX()) return false;
+        return true;
     }
 }

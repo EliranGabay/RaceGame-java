@@ -36,13 +36,17 @@ public class AerialArena {
 	}
 
 	public int crossFinishLine(Airplane airplane) {
+		for(Object player :finished)
+		{
+			if(player.equals(airplane))return finished.size();
+		}
 		finished.add(airplane);
 		return finished.size(); //return array size and racers position
 	}
 	
 	public boolean hasActiveRacers() {
 		boolean hasActive = true;
-		if (airplanes.size() == 0)
+		if (finished.size()==airplanes.size())
 			hasActive = false;
 		return hasActive;
 	}
@@ -61,13 +65,12 @@ public class AerialArena {
 					crossFinishLine(plane);
 				}
 			}
-		//removeFinishedAircrafts();
 		}
 	}
 	
 	public void printWinners() {
 		for(int i=0; i<finished.size();i++) {
-				System.out.println("#" + (i + 1) + ":  " + finished.get(i).toString());
+				if(finished.get(i) instanceof Airplane)System.out.println("#" + (i + 1) + ":  " +((Airplane) finished.get(i)).getName());
 			}
 		}
 	

@@ -5,18 +5,22 @@ import game.arenas.ArenaType;
 import game.racers.Airplane;
 
 public class GameEngine {
-    AerialArena airArena;
-    ArenaType activeArena;
-    GameEngine instance;
+    private AerialArena airArena;
+    private ArenaType activeArena;
+    private static GameEngine instance=null;
 
-    /*public GameEngine getInstance()
+    public static GameEngine getInstance()
     {
-
-    }*/
+        if(instance==null)
+        {
+            instance=new GameEngine();
+        }
+        return instance;
+    }
 
     public boolean setArena(Object arena)
     {
-        if(arena.getClass().isInstance(airArena.getClass()))
+        if(arena instanceof AerialArena)
         {
             this.airArena=(AerialArena)arena;
             this.activeArena=ArenaType.AERIALARENA;
@@ -27,7 +31,7 @@ public class GameEngine {
 
     public boolean addRacer(Object newRacer)
     {
-        if(newRacer.getClass().isInstance(Airplane.class))
+        if(newRacer instanceof Airplane)
         {
             this.airArena.addAirplane((Airplane)newRacer);
             return true;
