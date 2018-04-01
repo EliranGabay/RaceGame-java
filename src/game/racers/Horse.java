@@ -1,6 +1,7 @@
 package game.racers;
 
 import game.arenas.AerialArena;
+import game.arenas.LandArena;
 import utilities.Point;
 
 public class Horse {
@@ -8,13 +9,16 @@ public class Horse {
     private Point currentLocation,finish;
     private LandArena arena;
     private  double maxSpeed,acceleration,currentSpeed;
+    private final int MAX_SPEED=80,ACCELERATION=7;
 
     //constructor
     public Horse(String name, double maxSpeed, double acceleration)
     {
         this.name = name;
-        this.maxSpeed = maxSpeed;
-        this.acceleration = acceleration;
+        if(maxSpeed<=MAX_SPEED)this.maxSpeed = maxSpeed;
+        else this.maxSpeed=MAX_SPEED;
+        if(acceleration<=ACCELERATION)this.acceleration = acceleration;
+        else this.acceleration=ACCELERATION;
     }
 
     public Horse(String name)

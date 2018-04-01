@@ -1,11 +1,12 @@
 package game;
 
-import game.arenas.AerialArena;
-import game.arenas.ArenaType;
-import game.racers.Airplane;
+import game.arenas.*;
+import game.racers.*;
 
 public class GameEngine {
     private AerialArena airArena;
+    private LandArena landArena;
+    private NavalArena navalArena;
     private ArenaType activeArena;
     private static GameEngine instance=null;
 
@@ -26,6 +27,18 @@ public class GameEngine {
             this.activeArena=ArenaType.AERIALARENA;
             return true;
         }
+        if(arena instanceof LandArena)
+        {
+            this.landArena=(LandArena)arena;
+            this.activeArena=ArenaType.LANDARENA;
+            return true;
+        }
+        if(arena instanceof NavalArena)
+        {
+            this.navalArena=(NavalArena)arena;
+            this.activeArena=ArenaType.NEVALARENA;
+            return true;
+        }
         return false;
     }
 
@@ -36,12 +49,39 @@ public class GameEngine {
             this.airArena.addAirplane((Airplane)newRacer);
             return true;
         }
+        if(newRacer instanceof Helicopter)
+        {
+            this.airArena.addHelicopters((Helicopter)newRacer);
+            return true;
+        }
+        if(newRacer instanceof Horse)
+        {
+            this.landArena.addHorse((Horse)newRacer);
+            return true;
+        }
+        if(newRacer instanceof Car)
+        {
+            this.landArena.addCar((Car)newRacer);
+            return true;
+        }
+        if(newRacer instanceof RowBoat)
+        {
+            this.navalArena.addRowBoat((RowBoat)newRacer);
+            return true;
+        }
+        if(newRacer instanceof SpeedBoat)
+        {
+            this.navalArena.addSpeedBoat((SpeedBoat)newRacer);
+            return true;
+        }
         return false;
     }
 
     public void initRace()
     {
         if(activeArena.equals(ArenaType.AERIALARENA))airArena.initRace();
+        if(activeArena.equals(ArenaType.LANDARENA))landArena.initRace();
+        if(activeArena.equals(ArenaType.NEVALARENA))navalArena.initRace();
     }
 
     public void startRace()
@@ -53,6 +93,22 @@ public class GameEngine {
                 airArena.playTurn();
             }
             airArena.printWinners();
+        }
+        if(activeArena.equals(ArenaType.LANDARENA))
+        {
+            while (landArena.hasActiveRacers())
+            {
+                landArena.playTurn();
+            }
+            landArena.printWinners();
+        }
+        if(activeArena.equals(ArenaType.NEVALARENA))
+        {
+            while (navalArena.hasActiveRacers())
+            {
+                navalArena.playTurn();
+            }
+            navalArena.printWinners();
         }
     }
 }

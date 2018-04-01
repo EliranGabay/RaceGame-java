@@ -8,13 +8,16 @@ public class Helicopter {
     private Point currentLocation,finish;
     private AerialArena arena;
     private  double maxSpeed,acceleration,currentSpeed;
+    private final int MAX_SPEED=150,ACCELERATION=10;
 
     //constructor
     public Helicopter(String name, double maxSpeed, double acceleration)
     {
         this.name = name;
-        this.maxSpeed = maxSpeed;
-        this.acceleration = acceleration;
+        if(maxSpeed<=MAX_SPEED)this.maxSpeed = maxSpeed;
+        else this.maxSpeed=MAX_SPEED;
+        if(acceleration<=ACCELERATION)this.acceleration = acceleration;
+        else this.acceleration=ACCELERATION;
     }
 
     public Helicopter(String name)
