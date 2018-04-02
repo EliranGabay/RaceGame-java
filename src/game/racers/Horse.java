@@ -34,7 +34,7 @@ public class Horse {
         this.name = name;
     }
 
-    public Point getCurrentLocation() {
+    private Point getCurrentLocation() {
         return currentLocation;
     }
 
@@ -58,7 +58,7 @@ public class Horse {
         this.arena = arena;
     }
 
-    public double getMaxSpeed() {
+    private double getMaxSpeed() {
         return maxSpeed;
     }
 
@@ -66,7 +66,7 @@ public class Horse {
         this.maxSpeed = maxSpeed;
     }
 
-    public double getAcceleration() {
+    private double getAcceleration() {
         return acceleration;
     }
 
@@ -100,5 +100,10 @@ public class Horse {
     {
         if(getCurrentLocation().getX()<getFinish().getX()) return false;
         return true;
+    }
+    @Override
+    public String toString()
+    {
+        return getClass().getSimpleName()+" "+getName()+" ("+getMaxSpeed()+", "+getAcceleration()+")";
     }
 }

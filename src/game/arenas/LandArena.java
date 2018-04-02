@@ -33,7 +33,7 @@ public class LandArena {
                 return false;
             }
         }
-        if(cars.size()+horses.size()>MAX_RACERS)return false;
+        if(cars.size()+horses.size()>=MAX_RACERS)return false;
         horses.add(horse);
         return true;
     }
@@ -47,7 +47,7 @@ public class LandArena {
                 return false;
             }
         }
-        if(cars.size()+horses.size()>MAX_RACERS)return false;
+        if(cars.size()+horses.size()>=MAX_RACERS)return false;
         cars.add(car);
         return true;
     }
@@ -107,8 +107,7 @@ public class LandArena {
 
     public void printWinners() {
         for(int i=0; i<finished.size();i++) {
-            if(finished.get(i) instanceof Horse)System.out.println("#" + (i + 1) + ":  " +((Horse) finished.get(i)).getName());
-            if(finished.get(i) instanceof Car)System.out.println("#" + (i + 1) + ":  " +((Car) finished.get(i)).getName());
+            System.out.println("#" + (i + 1) + ":  " +(finished.get(i)));
         }
     }
 

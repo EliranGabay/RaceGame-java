@@ -33,7 +33,7 @@ public class NavalArena {
                 return false;
             }
         }
-        if(speedBoats.size()+rowBoats.size()>MAX_RACERS)return false;
+        if(speedBoats.size()+rowBoats.size()>=MAX_RACERS)return false;
         rowBoats.add(RowBoat);
         return true;
     }
@@ -47,7 +47,7 @@ public class NavalArena {
                 return false;
             }
         }
-        if(speedBoats.size()+rowBoats.size()>MAX_RACERS)return false;
+        if(speedBoats.size()+rowBoats.size()>=MAX_RACERS)return false;
         speedBoats.add(SpeedBoat);
         return true;
     }
@@ -107,8 +107,7 @@ public class NavalArena {
 
     public void printWinners() {
         for(int i=0; i<finished.size();i++) {
-            if(finished.get(i) instanceof RowBoat)System.out.println("#" + (i + 1) + ":  " +((RowBoat) finished.get(i)).getName());
-            if(finished.get(i) instanceof SpeedBoat)System.out.println("#" + (i + 1) + ":  " +((SpeedBoat) finished.get(i)).getName());
+            System.out.println("#" + (i + 1) + ":  " +(finished.get(i)));
         }
     }
 

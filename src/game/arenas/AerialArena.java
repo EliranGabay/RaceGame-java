@@ -23,6 +23,22 @@ public class AerialArena {
 		helicopters= new ArrayList<Helicopter>();
 	}
 
+	public Point getStart() {
+		return start;
+	}
+
+	public void setStart(Point start) {
+		this.start = start;
+	}
+
+	public Point getFinish() {
+		return finish;
+	}
+
+	public void setFinish(Point finish) {
+		this.finish = finish;
+	}
+
 	//Airplane
 	public boolean addAirplane(Airplane airplane) {
 		for(Airplane plane : airplanes)
@@ -32,7 +48,7 @@ public class AerialArena {
 				return false;
 			}
 		}
-		if(airplanes.size()+helicopters.size()>MAX_RACERS)return false;
+		if(airplanes.size()+helicopters.size()>=MAX_RACERS)return false;
 		airplanes.add(airplane);
 		return true;
 	}
@@ -46,7 +62,7 @@ public class AerialArena {
 				return false;
 			}
 		}
-		if(airplanes.size()+helicopters.size()>MAX_RACERS)return false;
+		if(airplanes.size()+helicopters.size()>=MAX_RACERS)return false;
 		helicopters.add(helicopter);
 		return true;
 	}
@@ -106,8 +122,7 @@ public class AerialArena {
 	
 	public void printWinners() {
 		for(int i=0; i<finished.size();i++) {
-				if(finished.get(i) instanceof Airplane)System.out.println("#" + (i + 1) + ":  " +((Airplane) finished.get(i)).getName());
-				if(finished.get(i) instanceof Helicopter)System.out.println("#" + (i + 1) + ":  " +((Helicopter) finished.get(i)).getName());
+				System.out.println("#" + (i + 1) + ":  " +(finished.get(i)));
 			}
 		}
 	

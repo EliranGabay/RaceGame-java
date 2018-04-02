@@ -3,19 +3,20 @@ package utilities;
 public class Point {
     private double x;
     private double y;
+    private final double MIN_X=0,MAX_X=20000;
 
     //constructor
     public Point(double x, double y)
     {
-        this.x = x;
-        this.y = y;
+        setX(x);
+        setY(y);
     }
 
     //copy constructor
     public Point(Point other)
     {
-        this.x = other.getX();
-        this.y = other.getY();
+        setX(other.getX());
+        setY(other.getY());
     }
 
     public double getX() {
@@ -26,12 +27,28 @@ public class Point {
         return y;
     }
 
-    public void setX(double x) {
-        this.x=x;
+    public boolean setX(double x) {
+        if(x>=MIN_X&&x<=MAX_X)
+        {
+            this.x=x;
+            return true;
+        }
+        return false;
     }
 
-    public void setY(double y) {
-        this.y=y;
+    public boolean setY(double y) {
+        if(y>=MIN_X&&y<=MAX_X)
+        {
+            this.y=y;
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public String toString()
+    {
+       return "("+this.getX()+","+this.getY()+")";
     }
 
 }

@@ -19,6 +19,46 @@ public class GameEngine {
         return instance;
     }
 
+    //Getter & Setter
+    public AerialArena getAirArena() {
+        return airArena;
+    }
+
+    public boolean setAirArena(AerialArena airArena) {
+        this.airArena = airArena;
+        if(this.airArena!=null)return true;
+        return false;
+    }
+
+    public LandArena getLandArena() {
+        return landArena;
+    }
+
+    public boolean setLandArena(LandArena landArena) {
+        this.landArena = landArena;
+        if(this.landArena!=null)return true;
+        return false;
+    }
+
+    public NavalArena getNavalArena() {
+        return navalArena;
+    }
+
+    public boolean setNavalArena(NavalArena navalArena) {
+        this.navalArena = navalArena;
+        if(this.navalArena!=null)return true;
+        return false;
+    }
+
+    public ArenaType getArenaType() {
+        return activeArena;
+    }
+
+    public void setArenaType(ArenaType activeArena) {
+        this.activeArena = activeArena;
+    }
+
+    //function
     public boolean setArena(Object arena)
     {
         if(arena instanceof AerialArena)
@@ -44,35 +84,35 @@ public class GameEngine {
 
     public boolean addRacer(Object newRacer)
     {
-        if(newRacer instanceof Airplane)
+        if(newRacer instanceof Airplane && activeArena.equals(ArenaType.AERIALARENA))
         {
-            this.airArena.addAirplane((Airplane)newRacer);
-            return true;
+            if(this.airArena.addAirplane((Airplane)newRacer))return true;
+            return false;
         }
-        if(newRacer instanceof Helicopter)
+        if(newRacer instanceof Helicopter && activeArena.equals(ArenaType.AERIALARENA))
         {
-            this.airArena.addHelicopters((Helicopter)newRacer);
-            return true;
+            if(this.airArena.addHelicopters((Helicopter)newRacer))return true;
+            return false;
         }
-        if(newRacer instanceof Horse)
+        if(newRacer instanceof Horse && activeArena.equals(ArenaType.LANDARENA))
         {
-            this.landArena.addHorse((Horse)newRacer);
-            return true;
+            if(this.landArena.addHorse((Horse)newRacer))return true;
+            return false;
         }
-        if(newRacer instanceof Car)
+        if(newRacer instanceof Car && activeArena.equals(ArenaType.LANDARENA))
         {
-            this.landArena.addCar((Car)newRacer);
-            return true;
+            if(this.landArena.addCar((Car)newRacer))return true;
+            return false;
         }
-        if(newRacer instanceof RowBoat)
+        if(newRacer instanceof RowBoat && activeArena.equals(ArenaType.NEVALARENA))
         {
-            this.navalArena.addRowBoat((RowBoat)newRacer);
-            return true;
+            if(this.navalArena.addRowBoat((RowBoat)newRacer))return true;
+            return false;
         }
-        if(newRacer instanceof SpeedBoat)
+        if(newRacer instanceof SpeedBoat && activeArena.equals(ArenaType.NEVALARENA))
         {
-            this.navalArena.addSpeedBoat((SpeedBoat)newRacer);
-            return true;
+            if(this.navalArena.addSpeedBoat((SpeedBoat)newRacer))return true;
+            return false;
         }
         return false;
     }
@@ -92,6 +132,7 @@ public class GameEngine {
             {
                 airArena.playTurn();
             }
+            System.out.println("Aerial Race ended!");
             airArena.printWinners();
         }
         if(activeArena.equals(ArenaType.LANDARENA))
@@ -100,6 +141,7 @@ public class GameEngine {
             {
                 landArena.playTurn();
             }
+            System.out.println("Land Race ended!");
             landArena.printWinners();
         }
         if(activeArena.equals(ArenaType.NEVALARENA))
@@ -108,6 +150,7 @@ public class GameEngine {
             {
                 navalArena.playTurn();
             }
+            System.out.println("Naval Race ended!");
             navalArena.printWinners();
         }
     }

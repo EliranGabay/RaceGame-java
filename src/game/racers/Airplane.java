@@ -32,7 +32,7 @@ public class Airplane {
         this.name = name;
     }
 
-    public Point getCurrentLocation() {
+    private Point getCurrentLocation() {
         return currentLocation;
     }
 
@@ -56,7 +56,7 @@ public class Airplane {
         this.arena = arena;
     }
 
-    public double getMaxSpeed() {
+    private double getMaxSpeed() {
         return maxSpeed;
     }
 
@@ -64,7 +64,7 @@ public class Airplane {
         this.maxSpeed = maxSpeed;
     }
 
-    public double getAcceleration() {
+    private double getAcceleration() {
         return acceleration;
     }
 
@@ -98,5 +98,10 @@ public class Airplane {
     {
         if(getCurrentLocation().getX()<getFinish().getX()) return false;
         return true;
+    }
+    @Override
+    public String toString()
+    {
+        return getClass().getSimpleName()+" "+getName()+" ("+getMaxSpeed()+", "+getAcceleration()+")";
     }
 }
