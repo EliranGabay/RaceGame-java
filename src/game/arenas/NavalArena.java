@@ -28,13 +28,13 @@ public class NavalArena {
     public boolean addRowBoat(RowBoat RowBoat) {
         for(RowBoat player : rowBoats)
         {
-            if (player.getName().equals(RowBoat.getName()))
+            if (player.getName().equals(RowBoat.getName()))//if the rowboat name exist return flase
             {
                 return false;
             }
         }
-        if(speedBoats.size()+rowBoats.size()>=MAX_RACERS)return false;
-        rowBoats.add(RowBoat);
+        if(speedBoats.size()+rowBoats.size()>=MAX_RACERS)return false;//make sure the number of rowboats and speedboats didnt exceed the max num of racers
+        rowBoats.add(RowBoat);//add to array
         return true;
     }
 
@@ -42,18 +42,18 @@ public class NavalArena {
     public boolean addSpeedBoat(SpeedBoat SpeedBoat) {
         for(SpeedBoat player : speedBoats)
         {
-            if (player.getName().equals(SpeedBoat.getName()))
+            if (player.getName().equals(SpeedBoat.getName()))//if the speedboat name exist return flase
             {
                 return false;
             }
         }
-        if(speedBoats.size()+rowBoats.size()>=MAX_RACERS)return false;
-        speedBoats.add(SpeedBoat);
+        if(speedBoats.size()+rowBoats.size()>=MAX_RACERS)return false;//make sure the number of rowboats and speedboats didnt exceed the max num of racers
+        speedBoats.add(SpeedBoat);//add to array
         return true;
     }
 
     //RowBoat
-    public int crossFinishLine(RowBoat RowBoat) {
+    public int crossFinishLine(RowBoat RowBoat) {// adds racer to finished, returns his place
         for(Object player :finished)
         {
             if(player.equals(RowBoat))return finished.size();
@@ -63,7 +63,7 @@ public class NavalArena {
     }
 
     //SpeedBoat
-    public int crossFinishLine(SpeedBoat SpeedBoat) {
+    public int crossFinishLine(SpeedBoat SpeedBoat) {// adds racer to finished, returns his place
         for(Object player :finished)
         {
             if(player.equals(SpeedBoat))return finished.size();
@@ -73,13 +73,13 @@ public class NavalArena {
     }
 
     public boolean hasActiveRacers() {
-        boolean hasActive = true;//
+        boolean hasActive = true;
         if (finished.size()==rowBoats.size()+speedBoats.size())
             hasActive = false;
-        return hasActive;
+        return hasActive;// returns if there are active racers
     }
 
-    public void initRace() {
+    public void initRace() {// init each racer
         for(RowBoat player : rowBoats) {
             player.initRace(this, start, finish);
         }
@@ -88,7 +88,7 @@ public class NavalArena {
         }
     }
 
-    public void playTurn() {
+    public void playTurn() {// signal each racer to make a move, remove finished racers
         if (hasActiveRacers()) {
             for(RowBoat player : rowBoats){
                 player.move(FRICTION);
@@ -105,7 +105,7 @@ public class NavalArena {
         }
     }
 
-    public void printWinners() {
+    public void printWinners() {//print the winners
         for(int i=0; i<finished.size();i++) {
             System.out.println("#" + (i + 1) + ":  " +(finished.get(i)));
         }

@@ -28,13 +28,13 @@ public class LandArena {
     public boolean addHorse(Horse horse) {
         for(Horse player : horses)
         {
-            if (player.getName().equals(horse.getName()))
+            if (player.getName().equals(horse.getName()))//if the horse name exist return flase
             {
                 return false;
             }
         }
-        if(cars.size()+horses.size()>=MAX_RACERS)return false;
-        horses.add(horse);
+        if(cars.size()+horses.size()>=MAX_RACERS)return false;//make sure the number of cars and horses didnt exceed the max num of racers
+        horses.add(horse);//add to array
         return true;
     }
 
@@ -42,18 +42,18 @@ public class LandArena {
     public boolean addCar(Car car) {
         for(Car player : cars)
         {
-            if (player.getName().equals(car.getName()))
+            if (player.getName().equals(car.getName()))//if the car name exist return flase
             {
                 return false;
             }
         }
-        if(cars.size()+horses.size()>=MAX_RACERS)return false;
-        cars.add(car);
+        if(cars.size()+horses.size()>=MAX_RACERS)return false;//make sure the number of cars and horses didnt exceed the max num of racers
+        cars.add(car);//add to array
         return true;
     }
 
     //Horse
-    public int crossFinishLine(Horse horse) {
+    public int crossFinishLine(Horse horse) {// adds racer to finished, returns his place
         for(Object player :finished)
         {
             if(player.equals(horse))return finished.size();
@@ -63,7 +63,7 @@ public class LandArena {
     }
 
     //Car
-    public int crossFinishLine(Car car) {
+    public int crossFinishLine(Car car) {// adds racer to finished, returns his place
         for(Object player :finished)
         {
             if(player.equals(car))return finished.size();
@@ -73,13 +73,13 @@ public class LandArena {
     }
 
     public boolean hasActiveRacers() {
-        boolean hasActive = true;//
+        boolean hasActive = true;
         if (finished.size()==horses.size()+cars.size())
             hasActive = false;
-        return hasActive;
+        return hasActive;// returns if there are active racers
     }
 
-    public void initRace() {
+    public void initRace() {// init each racer
         for(Horse player : horses) {
             player.initRace(this, start, finish);
         }
@@ -88,7 +88,7 @@ public class LandArena {
         }
     }
 
-    public void playTurn() {
+    public void playTurn() {// signal each racer to make a move, remove finished racers
         if (hasActiveRacers()) {
             for(Horse player : horses){
                 player.move(FRICTION);
@@ -105,7 +105,7 @@ public class LandArena {
         }
     }
 
-    public void printWinners() {
+    public void printWinners() {//print the winners
         for(int i=0; i<finished.size();i++) {
             System.out.println("#" + (i + 1) + ":  " +(finished.get(i)));
         }
