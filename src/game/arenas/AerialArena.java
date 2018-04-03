@@ -4,7 +4,11 @@ import java.util.ArrayList;
 import game.racers.*;
 import utilities.*;
 
-
+/**
+ * this class represent the Aerial Arena with all needed components
+ * @version 3.4.2018
+ * @author Eliran gabay 203062831 & Linoy shriker 204027627
+ */
 public class AerialArena {
 	private ArrayList<Airplane> airplanes;
 	private ArrayList<Helicopter> helicopters;
@@ -14,7 +18,12 @@ public class AerialArena {
 	private Point start;
 	private Point finish;
 
-	//constructor
+    /**
+     * this constructs a AerialArena with a specified start and finish parameters
+     * and update finished, airplanes and helicopters.
+     * @param start 
+     * @param finish
+     */
 	public AerialArena(Point start, Point finish) {
 		this.start = new Point(start);
 		this.finish = new Point(finish);
@@ -22,7 +31,10 @@ public class AerialArena {
 		airplanes = new ArrayList<Airplane>();
 		helicopters= new ArrayList<Helicopter>();
 	}
-
+    /**
+     * ALL SETTERS AND GETTERS PARAMETERS& RETURN VALUES ARE:
+     * start, finish.
+     */
 	public Point getStart() {
 		return start;
 	}
@@ -39,6 +51,10 @@ public class AerialArena {
 		this.finish = finish;
 	}
 
+	/**
+	 * @param airplane
+	 * @return false if the airplain name exist, true otherwise.
+	 */
 	//Airplane
 	public boolean addAirplane(Airplane airplane) {
 		for(Airplane plane : airplanes)
@@ -53,6 +69,10 @@ public class AerialArena {
 		return true;
 	}
 
+	/**
+	 * @param helicopter
+	 * @return false if the helicopter name exist, true otherwise.
+	 */
 	//Helicopter
 	public boolean addHelicopters(Helicopter helicopter) {
 		for(Helicopter plane : helicopters)
@@ -67,6 +87,10 @@ public class AerialArena {
 		return true;
 	}
 
+	/**
+	 * @param airplane
+	 * @return finished.size(); array size and Airplane position
+	 */
 	//Airplane
 	public int crossFinishLine(Airplane airplane) {// adds racer to finished, returns his place
 		for(Object player :finished)
@@ -77,6 +101,10 @@ public class AerialArena {
 		return finished.size(); //return array size and Airplane position
 	}
 
+	/**
+	 * @param helicopter
+	 * @return finished.size(); array size and helicopter position
+	 */
 	//Helicopter
 	public int crossFinishLine(Helicopter helicopter) {// adds racer to finished, returns his place
 		for(Object player :finished)
@@ -87,6 +115,9 @@ public class AerialArena {
 		return finished.size(); //return array size and Helicopter position
 	}
 	
+	/**
+	 * @return hasActive  if there are active racers(true/false)
+	 */
 	public boolean hasActiveRacers() {
 		boolean hasActive = true;
 		if (finished.size()==airplanes.size()+helicopters.size())
@@ -94,7 +125,7 @@ public class AerialArena {
 		return hasActive;// returns if there are active racers
 
 	}
-	
+
 	public void initRace() {// init each racer
 		for(Airplane plane : airplanes) {
 			plane.initRace(this, start, finish);

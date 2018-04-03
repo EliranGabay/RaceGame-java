@@ -6,6 +6,11 @@ import utilities.Point;
 
 import java.util.ArrayList;
 
+/**
+ * this class represent the Naval Arena with all needed components
+ * @version 3.4.2018
+ * @author Eliran gabay 203062831 & Linoy shriker 204027627
+ */
 public class NavalArena {
     private ArrayList<RowBoat> rowBoats;
     private ArrayList<SpeedBoat> speedBoats;
@@ -15,7 +20,12 @@ public class NavalArena {
     private Point start;
     private Point finish;
 
-    //constructor
+    /**
+     * this constructs a Naval Arena with a specified start and finish parameters
+     * and update finished, rowBoats and speedBoats.
+     * @param start 
+     * @param finish
+     */
     public NavalArena(Point start, Point finish) {
         this.start = new Point(start);
         this.finish = new Point(finish);
@@ -24,6 +34,10 @@ public class NavalArena {
         speedBoats= new ArrayList<SpeedBoat>();
     }
 
+	/**
+	 * @param RowBoat
+	 * @return false if the RowBoat name exist, true otherwise.
+	 */
     //RowBoat
     public boolean addRowBoat(RowBoat RowBoat) {
         for(RowBoat player : rowBoats)
@@ -38,6 +52,10 @@ public class NavalArena {
         return true;
     }
 
+	/**
+	 * @param SpeedBoat
+	 * @return false if the SpeedBoat name exist, true otherwise.
+	 */
     //SpeedBoat
     public boolean addSpeedBoat(SpeedBoat SpeedBoat) {
         for(SpeedBoat player : speedBoats)
@@ -52,6 +70,10 @@ public class NavalArena {
         return true;
     }
 
+	/**
+	 * @param RowBoat
+	 * @return finished.size(); array size and RowBoat position
+	 */
     //RowBoat
     public int crossFinishLine(RowBoat RowBoat) {// adds racer to finished, returns his place
         for(Object player :finished)
@@ -62,6 +84,10 @@ public class NavalArena {
         return finished.size(); //return array size and RowBoat position
     }
 
+	/**
+	 * @param SpeedBoat
+	 * @return finished.size(); array size and SpeedBoat position
+	 */
     //SpeedBoat
     public int crossFinishLine(SpeedBoat SpeedBoat) {// adds racer to finished, returns his place
         for(Object player :finished)
@@ -72,6 +98,9 @@ public class NavalArena {
         return finished.size(); //return array size and SpeedBoat position
     }
 
+	/**
+	 * @return hasActive  if there are active racers(true/false)
+	 */
     public boolean hasActiveRacers() {
         boolean hasActive = true;
         if (finished.size()==rowBoats.size()+speedBoats.size())

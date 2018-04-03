@@ -3,6 +3,11 @@ package game;
 import game.arenas.*;
 import game.racers.*;
 
+/**
+ * this class represent the Game Engine with all needed components
+ * @version 3.4.2018
+ * @author Eliran gabay 203062831 & Linoy shriker 204027627
+ */
 public class GameEngine {
     private AerialArena airArena;
     private LandArena landArena;
@@ -10,6 +15,9 @@ public class GameEngine {
     private ArenaType activeArena;
     private static GameEngine instance=null;
 
+    /**
+     * @return instance implementaion of Singleton
+     */
     public static GameEngine getInstance()
     {
         if(instance==null)
@@ -19,6 +27,10 @@ public class GameEngine {
         return instance;
     }
 
+    /**
+     * ALL SETTERS AND GETTERS PARAMETERS& RETURN VALUES ARE:
+     * airArena, landArena, navalArena, activeArena, arena.
+     */
     //Getter & Setter
     public AerialArena getAirArena() {
         return airArena;
@@ -82,6 +94,11 @@ public class GameEngine {
         return false;
     }
 
+    
+	/**
+	 * @param newRacer
+	 * @return false if the newRacer name exist, true otherwise.
+	 */
     public boolean addRacer(Object newRacer)
     {
         if(newRacer instanceof Airplane && activeArena.equals(ArenaType.AERIALARENA))

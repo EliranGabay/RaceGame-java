@@ -6,6 +6,11 @@ import utilities.Point;
 
 import java.util.ArrayList;
 
+/**
+ * this class represent the Land Arena with all needed components
+ * @version 3.4.2018
+ * @author Eliran gabay 203062831 & Linoy shriker 204027627
+ */
 public class LandArena {
     private ArrayList<Horse> horses;
     private ArrayList<Car> cars;
@@ -15,7 +20,12 @@ public class LandArena {
     private Point start;
     private Point finish;
 
-    //constructor
+    /**
+     * this constructs a Land Arena with a specified start and finish parameters
+     * and update finished, horses and cars.
+     * @param start 
+     * @param finish
+     */
     public LandArena(Point start, Point finish) {
         this.start = new Point(start);
         this.finish = new Point(finish);
@@ -24,6 +34,10 @@ public class LandArena {
         cars= new ArrayList<Car>();
     }
 
+	/**
+	 * @param horse
+	 * @return false if the horse name exist, true otherwise.
+	 */
     //Horse
     public boolean addHorse(Horse horse) {
         for(Horse player : horses)
@@ -38,6 +52,10 @@ public class LandArena {
         return true;
     }
 
+	/**
+	 * @param car
+	 * @return false if the car name exist, true otherwise.
+	 */
     //Car
     public boolean addCar(Car car) {
         for(Car player : cars)
@@ -52,6 +70,10 @@ public class LandArena {
         return true;
     }
 
+	/**
+	 * @param horse
+	 * @return finished.size(); array size and horse position
+	 */
     //Horse
     public int crossFinishLine(Horse horse) {// adds racer to finished, returns his place
         for(Object player :finished)
@@ -62,6 +84,10 @@ public class LandArena {
         return finished.size(); //return array size and Horse position
     }
 
+	/**
+	 * @param car
+	 * @return finished.size(); array size and car position
+	 */
     //Car
     public int crossFinishLine(Car car) {// adds racer to finished, returns his place
         for(Object player :finished)
@@ -72,6 +98,9 @@ public class LandArena {
         return finished.size(); //return array size and Car position
     }
 
+	/**
+	 * @return hasActive  if there are active racers(true/false)
+	 */
     public boolean hasActiveRacers() {
         boolean hasActive = true;
         if (finished.size()==horses.size()+cars.size())
