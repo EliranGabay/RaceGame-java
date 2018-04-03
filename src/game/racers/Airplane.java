@@ -3,15 +3,27 @@ package game.racers;
 import game.arenas.AerialArena;
 import utilities.Point;
 
+/**
+ * this class represent the Airplane as a racer with all needed components
+ * @version 3.4.2018
+ * @author Eliran gabay 203062831 & Linoy shriker 204027627
+ */
 public class Airplane {
     private  String name;
     private Point currentLocation,finish;
     private AerialArena arena;
     private  double maxSpeed,acceleration,currentSpeed;
     private final int MAX_SPEED=220,ACCELERATION=20;
-    //constructor
+    
+    /**
+     * this constructs a Airplane with a specified name,
+     * maxSpeed and acceleration.
+     * @param name the name of the Airplane
+     * @param maxSpeed the max speed of the Airplane
+     * @param acceleration the acceleration of the Airplane
+     */
     public Airplane(String name, double maxSpeed, double acceleration)
-    {
+    { 
         this.name = name;
         if(maxSpeed<=MAX_SPEED)this.maxSpeed = maxSpeed;
         else this.maxSpeed=MAX_SPEED;
@@ -19,11 +31,19 @@ public class Airplane {
         else this.acceleration=ACCELERATION;
     }
 
+    /**
+     * constructor
+     * @param name Airplane name
+     */
     public Airplane(String name)
     {
         this.name = name;
     }
 
+    /**
+     * ALL SETTERS AND GETTERS PARAMETERS& RETURN VALUES ARE:
+     * name, currentLocation, finish, arena, maxSpeed, acceleration, currentSpeed.
+     */
     public String getName() {
         return name;
     }
@@ -31,7 +51,7 @@ public class Airplane {
     private void setName(String name) {
         this.name = name;
     }
-
+  
     private Point getCurrentLocation() {
         return currentLocation;
     }
@@ -80,6 +100,12 @@ public class Airplane {
         this.currentSpeed = currentSpeed;
     }
 
+    /**
+     * @param arena
+     * @param start
+     * @param finish
+     * set the arena and finish point, move to start point.
+     */
     public void initRace(AerialArena arena, Point start, Point finish)
     {
         setArena(arena);
@@ -87,18 +113,32 @@ public class Airplane {
         setFinish(finish);
     }
 
+    /**
+     * @param friction
+     * @return the current location
+     */
     public Point move(double friction)
-    {
+    {// accelerate if not at top speed – currSpeed += acceleration*friction.
+
         if(this.currentSpeed<this.maxSpeed) this.currentSpeed+=this.acceleration*friction;
+    	// move forward: currLocation.x += currSpeed (y is always 0 for now)
         this.currentLocation.setX(this.currentLocation.getX()+this.currentSpeed);
         return currentLocation;
     }
 
+ /**
+  * @return false while the current location is "smaller" than get finish
+  * @return true if the current location is the same as get finish
+  */
     public  boolean isFinished()
     {
         if(getCurrentLocation().getX()<getFinish().getX()) return false;
         return true;
     }
+    
+    /**
+     * @return the string that contains all necessary info
+     */
     @Override
     public String toString()
     {

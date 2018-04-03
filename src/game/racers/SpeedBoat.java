@@ -4,6 +4,11 @@ import game.arenas.AerialArena;
 import game.arenas.NavalArena;
 import utilities.Point;
 
+/**
+ * this class represent the SpeedBoat as a racer with all needed components
+ * @version 3.4.2018
+ * @author Eliran gabay 203062831 & Linoy shriker 204027627
+ */
 public class SpeedBoat {
     private  String name;
     private Point currentLocation,finish;
@@ -11,7 +16,13 @@ public class SpeedBoat {
     private  double maxSpeed,acceleration,currentSpeed;
     private final int MAX_SPEED=170,ACCELERATION=5;
 
-    //constructor
+    /**
+     * this constructs a SpeedBoat with a specified name,
+     * maxSpeed and acceleration.
+     * @param name the name of the SpeedBoat
+     * @param maxSpeed the max speed of the SpeedBoat
+     * @param acceleration the acceleration of the SpeedBoat
+     */
     public SpeedBoat(String name, double maxSpeed, double acceleration)
     {
         this.name = name;
@@ -21,11 +32,19 @@ public class SpeedBoat {
         else this.acceleration=ACCELERATION;
     }
 
+    /**
+     * constructor
+     * @param name SpeedBoat name
+     */
     public SpeedBoat(String name)
     {
         this.name = name;
     }
 
+    /**
+     * ALL SETTERS AND GETTERS PARAMETERS& RETURN VALUES ARE:
+     * name, currentLocation, finish, arena, maxSpeed, acceleration, currentSpeed.
+     */
     public String getName() {
         return name;
     }
@@ -82,6 +101,13 @@ public class SpeedBoat {
         this.currentSpeed = currentSpeed;
     }
 
+    
+    /**
+     * @param arena
+     * @param start
+     * @param finish
+     * set the arena and finish point, move to start point.
+     */
     public void initRace(NavalArena arena, Point start, Point finish)
     {
         setArena(arena);
@@ -89,18 +115,31 @@ public class SpeedBoat {
         setFinish(finish);
     }
 
+    /**
+     * @param friction
+     * @return the current location
+     */
     public Point move(double friction)
-    {
+    {// accelerate if not at top speed – currSpeed += acceleration*friction.
         if(this.currentSpeed<this.maxSpeed) this.currentSpeed+=this.acceleration*friction;
+    	// move forward: currLocation.x += currSpeed (y is always 0 for now)
         this.currentLocation.setX(this.currentLocation.getX()+this.currentSpeed);
         return currentLocation;
     }
 
+    /**
+     * @return false while the current location is "smaller" than get finish
+     * @return true if the current location is the same as get finish
+     */
     public  boolean isFinished()
     {
         if(getCurrentLocation().getX()<getFinish().getX()) return false;
         return true;
     }
+    
+    /**
+     * @return the string that contains all necessary info
+     */
     @Override
     public String toString()
     {
