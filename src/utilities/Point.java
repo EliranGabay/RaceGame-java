@@ -7,7 +7,7 @@ package utilities;
 public class Point {
     private double x;
     private double y;
-    private final double MIN_X=0,MAX_X=20000;
+    private final double MIN_X=0,MAX_X=10000000,MIN_Y=0,MAX_Y=800;
 
     /**
      * this constructs a Point with a Location X,Y

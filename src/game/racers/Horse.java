@@ -26,19 +26,19 @@ public class Horse {
     public Horse(String name, double maxSpeed, double acceleration)
     {
         this.name = name;
-        if(maxSpeed<=MAX_SPEED)this.maxSpeed = maxSpeed;
-        else this.maxSpeed=MAX_SPEED;
-        if(acceleration<=ACCELERATION)this.acceleration = acceleration;
-        else this.acceleration=ACCELERATION;
+        this.maxSpeed=maxSpeed;
+        this.acceleration=acceleration;
     }
 
     /**
-     * constructor
+     * default constructor
      * @param name Horse name
      */
     public Horse(String name)
     {
         this.name = name;
+        this.maxSpeed=MAX_SPEED;
+        this.acceleration=ACCELERATION;
     }
     
     /**
@@ -120,7 +120,7 @@ public class Horse {
      * @return the current location
      */
     public Point move(double friction)
-    {// accelerate if not at top speed – currSpeed += acceleration*friction.
+    {// accelerate if not at top speed ï¿½ currSpeed += acceleration*friction.
         if(this.currentSpeed<this.maxSpeed) this.currentSpeed+=this.acceleration*friction;
     	// move forward: currLocation.x += currSpeed (y is always 0 for now)
         this.currentLocation.setX(this.currentLocation.getX()+this.currentSpeed);
