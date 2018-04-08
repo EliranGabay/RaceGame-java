@@ -121,20 +121,11 @@ public class Horse {
      */
     public Point move(double friction)
     {// accelerate if not at top speed � currSpeed += acceleration*friction.
-        if(this.currentSpeed<this.maxSpeed) this.currentSpeed+=this.acceleration*friction;
-    	// move forward: currLocation.x += currSpeed (y is always 0 for now)
+        if((this.currentSpeed+this.acceleration*friction)<this.maxSpeed) this.currentSpeed+=this.acceleration*friction;
+        else setCurrentSpeed(getMaxSpeed());
+        // move forward: currLocation.x += currSpeed (y is always 0 for now)
         this.currentLocation.setX(this.currentLocation.getX()+this.currentSpeed);
         return currentLocation;
-    }
-
-    /**
-     * @return false while the current location is "smaller" than get finish
-     * @return true if the current location is the same as get finish
-     */
-    public  boolean isFinished()
-    {
-        if(getCurrentLocation().getX()<getFinish().getX()) return false;
-        return true;
     }
     
     /**

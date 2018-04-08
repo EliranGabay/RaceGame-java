@@ -19,6 +19,7 @@ public class LandArena {
     private final int MAX_RACERS = 8;
     private Point start;
     private Point finish;
+    private static int numOfPlayers=0;//count number of players in the race
 
     /**
      * this constructs a Land Arena with a specified start and finish parameters
@@ -49,6 +50,7 @@ public class LandArena {
         }
         if(cars.size()+horses.size()>=MAX_RACERS)return false;//make sure the number of cars and horses didnt exceed the max num of racers
         horses.add(horse);//add to array
+        numOfPlayers++;
         return true;
     }
 
@@ -67,6 +69,7 @@ public class LandArena {
         }
         if(cars.size()+horses.size()>=MAX_RACERS)return false;//make sure the number of cars and horses didnt exceed the max num of racers
         cars.add(car);//add to array
+        numOfPlayers++;
         return true;
     }
 
@@ -103,7 +106,7 @@ public class LandArena {
 	 */
     public boolean hasActiveRacers() {
         boolean hasActive = true;
-        if (finished.size()==horses.size()+cars.size())
+        if (finished.size()==numOfPlayers)
             hasActive = false;
         return hasActive;// returns if there are active racers
     }
@@ -118,17 +121,26 @@ public class LandArena {
     }
 
     public void playTurn() {// signal each racer to make a move, remove finished racers
+        int flag=0;
         if (hasActiveRacers()) {
             for(Horse player : horses){
-                player.move(FRICTION);
-                if (player.isFinished()) {
+                if (player.move(FRICTION).getX()>=this.finish.getX()) {
                     crossFinishLine(player);
+                    flag=1;
                 }
             }
             for(Car player : cars){
-                player.move(FRICTION);
-                if (player.isFinished()) {
+                if (player.move(FRICTION).getX()>=this.finish.getX()) {
                     crossFinishLine(player);
+                    flag=1;
+                }
+            }
+            if(flag==1)
+            {
+                for(Object player:finished)//remove the player form the race
+                {
+                    if(player instanceof Car)cars.remove(player);
+                    if(player instanceof Horse)horses.remove(player);
                 }
             }
         }

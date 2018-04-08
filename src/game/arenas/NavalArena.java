@@ -19,6 +19,7 @@ public class NavalArena {
     private final int MAX_RACERS = 5;
     private Point start;
     private Point finish;
+    private static int numOfPlayers=0;//count number of players in the race
 
     /**
      * this constructs a Naval Arena with a specified start and finish parameters
@@ -49,6 +50,7 @@ public class NavalArena {
         }
         if(speedBoats.size()+rowBoats.size()>=MAX_RACERS)return false;//make sure the number of rowboats and speedboats didnt exceed the max num of racers
         rowBoats.add(RowBoat);//add to array
+        numOfPlayers++;
         return true;
     }
 
@@ -67,6 +69,7 @@ public class NavalArena {
         }
         if(speedBoats.size()+rowBoats.size()>=MAX_RACERS)return false;//make sure the number of rowboats and speedboats didnt exceed the max num of racers
         speedBoats.add(SpeedBoat);//add to array
+        numOfPlayers++;
         return true;
     }
 
@@ -103,7 +106,7 @@ public class NavalArena {
 	 */
     public boolean hasActiveRacers() {
         boolean hasActive = true;
-        if (finished.size()==rowBoats.size()+speedBoats.size())
+        if (finished.size()==numOfPlayers)
             hasActive = false;
         return hasActive;// returns if there are active racers
     }
@@ -118,17 +121,26 @@ public class NavalArena {
     }
 
     public void playTurn() {// signal each racer to make a move, remove finished racers
+        int flag=0;
         if (hasActiveRacers()) {
             for(RowBoat player : rowBoats){
-                player.move(FRICTION);
-                if (player.isFinished()) {
+                if (player.move(FRICTION).getX()>=this.finish.getX()) {
                     crossFinishLine(player);
+                    flag=1;
                 }
             }
             for(SpeedBoat player : speedBoats){
-                player.move(FRICTION);
-                if (player.isFinished()) {
+                if (player.move(FRICTION).getX()>=this.finish.getX()) {
                     crossFinishLine(player);
+                    flag=1;
+                }
+            }
+            if(flag==1)
+            {
+                for(Object player:finished)//remove the player form the race
+                {
+                    if(player instanceof RowBoat)rowBoats.remove(player);
+                    if(player instanceof SpeedBoat)speedBoats.remove(player);
                 }
             }
         }

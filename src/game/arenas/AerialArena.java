@@ -17,6 +17,7 @@ public class AerialArena {
 	private final int MAX_RACERS = 6;
 	private Point start;
 	private Point finish;
+	private static int numOfPlayers=0;//count number of players in the race
 
     /**
      * this constructs a AerialArena with a specified start and finish parameters
@@ -66,6 +67,7 @@ public class AerialArena {
 		}
 		if(airplanes.size()+helicopters.size()>=MAX_RACERS)return false;//make sure the number of airplains and helicopters didnt exceed the max num of racers
 		airplanes.add(airplane);//add to array
+		numOfPlayers++;
 		return true;
 	}
 
@@ -84,6 +86,7 @@ public class AerialArena {
 		}
 		if(airplanes.size()+helicopters.size()>=MAX_RACERS)return false;//make sure the number of airplains and helicopters didnt exceed the max num of racers
 		helicopters.add(helicopter);//add to array
+		numOfPlayers++;
 		return true;
 	}
 
@@ -120,7 +123,7 @@ public class AerialArena {
 	 */
 	public boolean hasActiveRacers() {
 		boolean hasActive = true;
-		if (finished.size()==airplanes.size()+helicopters.size())
+		if (finished.size()==numOfPlayers)
 			hasActive = false;
 		return hasActive;// returns if there are active racers
 
@@ -136,17 +139,26 @@ public class AerialArena {
 	}
 	
 	public void playTurn() {// signal each racer to make a move, remove finished racers
+		int flag=0;
 		if (hasActiveRacers()) {
 			for(Airplane plane : airplanes){
-				plane.move(FRICTION);
-				if (plane.isFinished()) {
+				if (plane.move(FRICTION).getX()>=this.finish.getX()) {
 					crossFinishLine(plane);
+					flag=1;
 				}
 			}
 			for(Helicopter plane : helicopters){
-				plane.move(FRICTION);
-				if (plane.isFinished()) {
+				if (plane.move(FRICTION).getX()>=this.finish.getX()) {
 					crossFinishLine(plane);
+					flag=1;
+				}
+			}
+			if(flag==1)//remove the player form the race
+			{
+				for(Object player:finished)
+				{
+					if(player instanceof Airplane)airplanes.remove(player);
+					if(player instanceof Helicopter)helicopters.remove(player);
 				}
 			}
 		}
