@@ -1,155 +1,124 @@
-package game.arenas;
-
-import game.racers.Car;
-import game.racers.Horse;
-import utilities.Point;
-
-import java.util.ArrayList;
-
 /**
  * this class represent the Land Arena with all needed components
  * @version 3.4.2018
  * @author Eliran gabay 203062831 & Linoy shriker 204027627
  */
+package game.arenas;
+
+import java.util.ArrayList;
+
+import game.racers.Car;
+import game.racers.Horse;
+import utilities.Point;
+
 public class LandArena {
-    private ArrayList<Horse> horses;
+
+    public static final int MAX_RACERS = 8;
+    private static final double FRICTION = 0.5;
     private ArrayList<Car> cars;
+    private ArrayList<Horse> horses;
     private ArrayList<Object> finished;
-    private final double FRICTION = 0.5;
-    private final int MAX_RACERS = 8;
     private Point start;
     private Point finish;
-    private static int numOfPlayers=0;//count number of players in the race
 
-    /**
-     * this constructs a Land Arena with a specified start and finish parameters
-     * and update finished, horses and cars.
-     * @param start 
-     * @param finish
-     */
     public LandArena(Point start, Point finish) {
-        this.start = new Point(start);
-        this.finish = new Point(finish);
-        finished = new ArrayList<Object>();
-        horses = new ArrayList<Horse>();
-        cars= new ArrayList<Car>();
+
+        this.setStart(new Point(start));
+        this.setFinish(new Point(finish));
+        this.setCars(new ArrayList<>());
+        this.setHorses(new ArrayList<>());
+        this.setFinished(new ArrayList<>());
+
     }
 
-	/**
-	 * @param horse
-	 * @return false if the horse name exist, true otherwise.
-	 */
-    //Horse
-    public boolean addHorse(Horse horse) {
-        for(Horse player : horses)
-        {
-            if (player.getName().equals(horse.getName()))//if the horse name exist return flase
-            {
-                return false;
-            }
-        }
-        if(cars.size()+horses.size()>=MAX_RACERS)return false;//make sure the number of cars and horses didnt exceed the max num of racers
-        horses.add(horse);//add to array
-        numOfPlayers++;
+    public boolean addCar(Car newRacer) {
+        if (this.isFull())
+            return false;
+        this.cars.add(newRacer);
         return true;
     }
 
-	/**
-	 * @param car
-	 * @return false if the car name exist, true otherwise.
-	 */
-    //Car
-    public boolean addCar(Car car) {
-        for(Car player : cars)
-        {
-            if (player.getName().equals(car.getName()))//if the car name exist return flase
-            {
-                return false;
-            }
-        }
-        if(cars.size()+horses.size()>=MAX_RACERS)return false;//make sure the number of cars and horses didnt exceed the max num of racers
-        cars.add(car);//add to array
-        numOfPlayers++;
+    public boolean addHorse(Horse newRacer) {
+        if (this.isFull())
+            return false;
+        this.horses.add(newRacer);
         return true;
     }
 
-	/**
-	 * @param horse
-	 * @return finished.size(); array size and horse position
-	 */
-    //Horse
-    public int crossFinishLine(Horse horse) {// adds racer to finished, returns his place
-        for(Object player :finished)
-        {
-            if(player.equals(horse))return finished.size();
-        }
-        finished.add(horse);
-        return finished.size(); //return array size and Horse position
+    public int crossFinishLine(Car car) {
+        this.finished.add(car);
+        return this.finished.size();
     }
 
-	/**
-	 * @param car
-	 * @return finished.size(); array size and car position
-	 */
-    //Car
-    public int crossFinishLine(Car car) {// adds racer to finished, returns his place
-        for(Object player :finished)
-        {
-            if(player.equals(car))return finished.size();
-        }
-        finished.add(car);
-        return finished.size(); //return array size and Car position
+    public int crossFinishLine(Horse horse) {
+        this.finished.add(horse);
+        return this.finished.size();
     }
 
-	/**
-	 * @return hasActive  if there are active racers(true/false)
-	 */
-    public boolean hasActiveRacers() {
-        boolean hasActive = true;
-        if (finished.size()==numOfPlayers)
-            hasActive = false;
-        return hasActive;// returns if there are active racers
+    public Point getFinish() {
+        return this.finish;
     }
 
-    public void initRace() {// init each racer
-        for(Horse player : horses) {
-            player.initRace(this, start, finish);
+    public ArrayList<Object> getFinished() {
+        return this.finished;
+    }
+
+    private int getNumOfRacers() {
+        return this.cars.size() + this.horses.size();
+    }
+
+    public Point getStart() {
+        return this.start;
+    }
+
+    public boolean hasActiveRacer() {
+        return ((this.cars.size() > 0) || (this.horses.size() > 0));
+    }
+
+    public void initRace() {
+        for (Car car : this.cars) {
+            car.initRace(this, this.start, this.finish);
+            // this.activeRacers++;
         }
-        for(Car player : cars) {
-            player.initRace(this, start, finish);
+        for (Horse horse : this.horses) {
+            horse.initRace(this, this.start, this.finish);
         }
     }
 
-    public void playTurn() {// signal each racer to make a move, remove finished racers
-        int flag=0;
-        if (hasActiveRacers()) {
-            for(Horse player : horses){
-                if (player.move(FRICTION).getX()>=this.finish.getX()) {
-                    crossFinishLine(player);
-                    flag=1;
-                }
-            }
-            for(Car player : cars){
-                if (player.move(FRICTION).getX()>=this.finish.getX()) {
-                    crossFinishLine(player);
-                    flag=1;
-                }
-            }
-            if(flag==1)
-            {
-                for(Object player:finished)//remove the player form the race
-                {
-                    if(player instanceof Car)cars.remove(player);
-                    if(player instanceof Horse)horses.remove(player);
-                }
-            }
+    private boolean isFull() {
+        return this.getNumOfRacers() == LandArena.MAX_RACERS;
+    }
+
+    public void playTurn() {
+        for (Car car : this.cars) {
+            car.move(LandArena.FRICTION);
+        }
+        for (Horse horse : this.horses) {
+            horse.move(LandArena.FRICTION);
+        }
+        for (Object racer : this.finished) {
+            this.cars.remove(racer);
+            this.horses.remove(racer);
         }
     }
 
-    public void printWinners() {//print the winners
-        for(int i=0; i<finished.size();i++) {
-            System.out.println("#" + (i + 1) + ":  " +(finished.get(i)));
-        }
+    public void setCars(ArrayList<Car> cars) {
+        this.cars = cars;
     }
 
+    public void setFinish(Point finish) {
+        this.finish = finish;
+    }
+
+    public void setFinished(ArrayList<Object> finished) {
+        this.finished = finished;
+    }
+
+    public void setHorses(ArrayList<Horse> horses) {
+        this.horses = horses;
+    }
+
+    public void setStart(Point start) {
+        this.start = start;
+    }
 }

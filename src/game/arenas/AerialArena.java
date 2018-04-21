@@ -1,173 +1,122 @@
-package game.arenas;
-
-import java.util.ArrayList;
-import game.racers.*;
-import utilities.*;
-
 /**
  * this class represent the Aerial Arena with all needed components
  * @version 3.4.2018
  * @author Eliran gabay 203062831 & Linoy shriker 204027627
  */
+package game.arenas;
+
+import java.util.ArrayList;
+
+import game.racers.Airplane;
+import game.racers.Helicopter;
+import utilities.Point;
+
 public class AerialArena {
+
+	public static final int MAX_RACERS = 6;
+	private static final double FRICTION = 0.4;
 	private ArrayList<Airplane> airplanes;
 	private ArrayList<Helicopter> helicopters;
 	private ArrayList<Object> finished;
-	private final double FRICTION = 0.4;
-	private final int MAX_RACERS = 6;
 	private Point start;
 	private Point finish;
-	private static int numOfPlayers=0;//count number of players in the race
 
-    /**
-     * this constructs a AerialArena with a specified start and finish parameters
-     * and update finished, airplanes and helicopters.
-     * @param start 
-     * @param finish
-     */
 	public AerialArena(Point start, Point finish) {
-		this.start = new Point(start);
-		this.finish = new Point(finish);
-		finished = new ArrayList<Object>();
-		airplanes = new ArrayList<Airplane>();
-		helicopters= new ArrayList<Helicopter>();
-	}
-    /**
-     * ALL SETTERS AND GETTERS PARAMETERS& RETURN VALUES ARE:
-     * start, finish.
-     */
-	public Point getStart() {
-		return start;
+		this.setStart(new Point(start));
+		this.setFinish(new Point(finish));
+		this.setAirplanes(new ArrayList<>());
+		this.setHelicopters(new ArrayList<>());
+		this.setFinished(new ArrayList<>());
 	}
 
-	public void setStart(Point start) {
-		this.start = start;
+	public boolean addAirplane(Airplane arp) {
+		if (this.isFull())
+			return false;
+		this.airplanes.add(arp);
+		return true;
+	}
+	public boolean addHelicopter(Helicopter heli) {
+		if (this.isFull())
+			return false;
+		this.helicopters.add(heli);
+		return true;
+	}
+
+	public int crossFinishLine(Airplane airplane) {
+		this.finished.add(airplane);
+		return this.finished.size();
+	}
+
+	public int crossFinishLine(Helicopter helicopter) {
+		this.finished.add(helicopter);
+		return this.finished.size();
 	}
 
 	public Point getFinish() {
-		return finish;
+		return this.finish;
+	}
+
+	public ArrayList<Object> getFinished() {
+		return this.finished;
+	}
+
+	private int getNumOfRacers() {
+		return this.airplanes.size() + this.helicopters.size();
+	}
+
+	public Point getStart() {
+		return this.start;
+	}
+
+	public boolean hasActiveRacer() {
+		return ((this.airplanes.size() > 0) || (this.helicopters.size() > 0));
+	}
+
+	public void initRace() {
+		for (Airplane ap : this.airplanes) {
+			ap.initRace(this, this.start, this.finish);
+		}
+		for (Helicopter hc : helicopters) {
+			hc.initRace(this, this.start, this.finish);
+		}
+	}
+
+	private boolean isFull() {
+		return this.getNumOfRacers() == AerialArena.MAX_RACERS;
+	}
+
+	public void playTurn() {
+		for (Airplane ap : this.airplanes) {
+			ap.move(AerialArena.FRICTION);
+		}
+		for (Helicopter hc : this.helicopters) {
+			hc.move(AerialArena.FRICTION);
+		}
+		for (Object racer : this.finished) {
+			this.airplanes.remove(racer);
+			this.helicopters.remove(racer);
+		}
+	}
+
+	public void setAirplanes(ArrayList<Airplane> airplanes) {
+		this.airplanes = airplanes;
 	}
 
 	public void setFinish(Point finish) {
 		this.finish = finish;
 	}
 
-	/**
-	 * @param airplane
-	 * @return false if the airplain name exist, true otherwise.
-	 */
-	//Airplane
-	public boolean addAirplane(Airplane airplane) {
-		for(Airplane plane : airplanes)
-		{
-			if (plane.getName().equals(airplane.getName()))//if the airplain name exist return flase
-			{
-				return false;
-			}
-		}
-		if(airplanes.size()+helicopters.size()>=MAX_RACERS)return false;//make sure the number of airplains and helicopters didnt exceed the max num of racers
-		airplanes.add(airplane);//add to array
-		numOfPlayers++;
-		return true;
+	public void setFinished(ArrayList<Object> finished) {
+		this.finished = finished;
 	}
 
-	/**
-	 * @param helicopter
-	 * @return false if the helicopter name exist, true otherwise.
-	 */
-	//Helicopter
-	public boolean addHelicopters(Helicopter helicopter) {
-		for(Helicopter plane : helicopters)
-		{
-			if (plane.getName().equals(helicopter.getName()))//if the Helicopter name exist return flase
-			{
-				return false;
-			}
-		}
-		if(airplanes.size()+helicopters.size()>=MAX_RACERS)return false;//make sure the number of airplains and helicopters didnt exceed the max num of racers
-		helicopters.add(helicopter);//add to array
-		numOfPlayers++;
-		return true;
+	public void setHelicopters(ArrayList<Helicopter> helicopters) {
+		this.helicopters = helicopters;
 	}
 
-	/**
-	 * @param airplane
-	 * @return finished.size(); array size and Airplane position
-	 */
-	//Airplane
-	public int crossFinishLine(Airplane airplane) {// adds racer to finished, returns his place
-		for(Object player :finished)
-		{
-			if(player.equals(airplane))return finished.size();
-		}
-		finished.add(airplane);
-		return finished.size(); //return array size and Airplane position
+	public void setStart(Point start) {
+		this.start = start;
 	}
 
-	/**
-	 * @param helicopter
-	 * @return finished.size(); array size and helicopter position
-	 */
-	//Helicopter
-	public int crossFinishLine(Helicopter helicopter) {// adds racer to finished, returns his place
-		for(Object player :finished)
-		{
-			if(player.equals(helicopter))return finished.size();
-		}
-		finished.add(helicopter);
-		return finished.size(); //return array size and Helicopter position
-	}
-	
-	/**
-	 * @return hasActive  if there are active racers(true/false)
-	 */
-	public boolean hasActiveRacers() {
-		boolean hasActive = true;
-		if (finished.size()==numOfPlayers)
-			hasActive = false;
-		return hasActive;// returns if there are active racers
-
-	}
-
-	public void initRace() {// init each racer
-		for(Airplane plane : airplanes) {
-			plane.initRace(this, start, finish);
-		}
-		for(Helicopter plane : helicopters) {
-			plane.initRace(this, start, finish);
-		}
-	}
-	
-	public void playTurn() {// signal each racer to make a move, remove finished racers
-		int flag=0;
-		if (hasActiveRacers()) {
-			for(Airplane plane : airplanes){
-				if (plane.move(FRICTION).getX()>=this.finish.getX()) {
-					crossFinishLine(plane);
-					flag=1;
-				}
-			}
-			for(Helicopter plane : helicopters){
-				if (plane.move(FRICTION).getX()>=this.finish.getX()) {
-					crossFinishLine(plane);
-					flag=1;
-				}
-			}
-			if(flag==1)//remove the player form the race
-			{
-				for(Object player:finished)
-				{
-					if(player instanceof Airplane)airplanes.remove(player);
-					if(player instanceof Helicopter)helicopters.remove(player);
-				}
-			}
-		}
-	}
-	
-	public void printWinners() {//print the winners
-		for(int i=0; i<finished.size();i++) {
-				System.out.println("#" + (i + 1) + ":  " +(finished.get(i)));
-			}
-		}
-	
 }
+

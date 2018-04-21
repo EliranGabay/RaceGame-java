@@ -1,95 +1,97 @@
-package game.racers;
-
-import game.arenas.AerialArena;
-import game.arenas.NavalArena;
-import utilities.Point;
-
 /**
  * this class represent the SpeedBoat as a racer with all needed components
  * @version 3.4.2018
  * @author Eliran gabay 203062831 & Linoy shriker 204027627
  */
+package game.racers;
+
+import game.arenas.NavalArena;
+import utilities.Point;
+
 public class SpeedBoat {
-    private  String name;
-    private Point currentLocation,finish;
+    private String name;
+    private Point currentLocation;
+    private Point finish;
     private NavalArena arena;
-    private  double maxSpeed,acceleration,currentSpeed;
-    private final int MAX_SPEED=170,ACCELERATION=5;
+    private double maxSpeed;
+    private double acceleration;
+    private double currentSpeed;
 
-    /**
-     * this constructs a SpeedBoat with a specified name,
-     * maxSpeed and acceleration.
-     * @param name the name of the SpeedBoat
-     * @param maxSpeed the max speed of the SpeedBoat
-     * @param acceleration the acceleration of the SpeedBoat
-     */
-    public SpeedBoat(String name, double maxSpeed, double acceleration)
-    {
-        this.name = name;
-        this.maxSpeed=maxSpeed;
-        this.acceleration=acceleration;
+    public SpeedBoat(String name, double maxSpeed, double acceleration) {
+        this.setName(name);
+        this.setMaxSpeed(maxSpeed);
+        this.setAcceleration(acceleration);
+        this.setCurrentSpeed(1);
     }
 
-    /**
-     * default constructor
-     * @param name SpeedBoat name
-     */
-    public SpeedBoat(String name)
-    {
-        this.name = name;
-        this.maxSpeed=MAX_SPEED;
-        this.acceleration=ACCELERATION;
+    public void initRace(NavalArena arena, Point start, Point finish) {
+        this.setArena(arena);
+        this.setCurrentLocation(start);
+        this.setFinish(finish);
     }
 
-    /**
-     * ALL SETTERS AND GETTERS PARAMETERS& RETURN VALUES ARE:
-     * name, currentLocation, finish, arena, maxSpeed, acceleration, currentSpeed.
-     */
+    public Point move(double friction) {
+        if (this.currentSpeed < this.maxSpeed) {
+            this.setCurrentSpeed(this.currentSpeed + this.acceleration * friction);
+        }
+        if (this.currentSpeed > this.maxSpeed) {
+            this.setCurrentSpeed(this.maxSpeed);
+        }
+        Point newLocation = new Point((this.currentLocation.getX() + (1 * this.currentSpeed)),
+                this.currentLocation.getY());
+        this.setCurrentLocation(newLocation);
+
+        if (this.currentLocation.getX() >= this.finish.getX()) {
+            this.arena.crossFinishLine(this);
+        }
+        return this.currentLocation;
+    }
+
+    public String toString() {
+        return "SpeedBoat " + this.name + " (" + this.maxSpeed + ", " + this.acceleration + ")";
+    }
+
     public String getName() {
         return name;
     }
 
-    private void setName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    private Point getCurrentLocation() {
+    public Point getCurrentLocation() {
         return currentLocation;
     }
 
-    private void setCurrentLocation(Point currentLocation) {
-        this.currentLocation=new Point(currentLocation);
-    }
-
-    public Point getFinish() {
-        return finish;
-    }
-
-    private void setFinish(Point finish) {
-        this.finish = finish;
+    public void setCurrentLocation(Point currentLocation) {
+        this.currentLocation = new Point(currentLocation);
     }
 
     public NavalArena getArena() {
         return arena;
     }
 
-    private void setArena(NavalArena arena) {
+    public void setArena(NavalArena arena) {
         this.arena = arena;
     }
 
-    private double getMaxSpeed() {
+    public void setFinish(Point finish) {
+        this.finish = new Point(finish);
+    }
+
+    public double getMaxSpeed() {
         return maxSpeed;
     }
 
-    private void setMaxSpeed(double maxSpeed) {
+    public void setMaxSpeed(double maxSpeed) {
         this.maxSpeed = maxSpeed;
     }
 
-    private double getAcceleration() {
+    public double getAcceleration() {
         return acceleration;
     }
 
-    private void setAcceleration(double acceleration) {
+    public void setAcceleration(double acceleration) {
         this.acceleration = acceleration;
     }
 
@@ -97,43 +99,7 @@ public class SpeedBoat {
         return currentSpeed;
     }
 
-    private void setCurrentSpeed(double currentSpeed) {
+    public void setCurrentSpeed(double currentSpeed) {
         this.currentSpeed = currentSpeed;
-    }
-
-    
-    /**
-     * @param arena
-     * @param start
-     * @param finish
-     * set the arena and finish point, move to start point.
-     */
-    public void initRace(NavalArena arena, Point start, Point finish)
-    {
-        setArena(arena);
-        setCurrentLocation(start);
-        setFinish(finish);
-    }
-
-    /**
-     * @param friction
-     * @return the current location
-     */
-    public Point move(double friction)
-    {// accelerate if not at top speed � currSpeed += acceleration*friction.
-        if((this.currentSpeed+this.acceleration*friction)<this.maxSpeed) this.currentSpeed+=this.acceleration*friction;
-        else setCurrentSpeed(getMaxSpeed());
-    	// move forward: currLocation.x += currSpeed (y is always 0 for now)
-        this.currentLocation.setX(this.currentLocation.getX()+this.currentSpeed);
-        return currentLocation;
-    }
-    
-    /**
-     * @return the string that contains all necessary info
-     */
-    @Override
-    public String toString()
-    {
-        return getClass().getSimpleName()+" "+getName()+" ("+getMaxSpeed()+", "+getAcceleration()+")";
     }
 }

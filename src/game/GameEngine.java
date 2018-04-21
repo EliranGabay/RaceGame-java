@@ -1,64 +1,69 @@
-package game;
-
-import game.arenas.*;
-import game.racers.*;
-
 /**
  * this class represent the Game Engine with all needed components
  * @version 3.4.2018
  * @author Eliran gabay 203062831 & Linoy shriker 204027627
  */
-public class GameEngine {
-    private AerialArena airArena;
-    private LandArena landArena;
-    private NavalArena navalArena;
-    private ArenaType activeArena;
-    private static GameEngine instance=null;
+package game;
 
-    /**
-     * @return instance implementaion of Singleton
-     */
-    public static GameEngine getInstance()
-    {
-        if(instance==null)
-        {
-            instance=new GameEngine();
+import game.arenas.AerialArena;
+import game.arenas.ArenaType;
+import game.arenas.LandArena;
+import game.arenas.NavalArena;
+import game.racers.Airplane;
+import game.racers.Car;
+import game.racers.Helicopter;
+import game.racers.Horse;
+import game.racers.RowBoat;
+import game.racers.SpeedBoat;
+
+public class GameEngine {
+
+    private static GameEngine instance;
+
+    public static GameEngine getInstance() {
+        if (instance == null) {
+            instance = new GameEngine();
         }
         return instance;
     }
 
-    /**
-     * ALL SETTERS AND GETTERS PARAMETERS& RETURN VALUES ARE:
-     * airArena, landArena, navalArena, activeArena, arena.
-     */
-    //Getter & Setter
-    public AerialArena getAirArena() {
-        return airArena;
+    private AerialArena airArena;
+    private LandArena landArena;
+    private NavalArena navalArena;
+    private ArenaType activeArena;
+
+    private GameEngine() {
     }
 
-    public boolean setAirArena(AerialArena airArena) {
-        this.airArena = airArena;
-        if(this.airArena!=null)return true;
-        return false;
-    }
-
-    public LandArena getLandArena() {
-        return landArena;
-    }
-
-    public boolean setLandArena(LandArena landArena) {
-        this.landArena = landArena;
-        if(this.landArena!=null)return true;
-        return false;
-    }
-
-    public NavalArena getNavalArena() {
-        return navalArena;
-    }
-
-    public boolean setNavalArena(NavalArena navalArena) {
-        this.navalArena = navalArena;
-        if(this.navalArena!=null)return true;
+    public boolean addRacer(Object newRacer) {
+        switch (this.getArenaType()) {
+            case AERIALARENA:
+                if (newRacer instanceof Airplane) {
+                    return this.airArena.addAirplane((Airplane) newRacer);
+                }
+                if (newRacer instanceof Helicopter) {
+                    return this.airArena.addHelicopter((Helicopter) newRacer);
+                }
+                break;
+            case LANDARENA:
+                if (newRacer instanceof Car) {
+                    return this.landArena.addCar((Car) newRacer);
+                }
+                if (newRacer instanceof Horse) {
+                    return this.landArena.addHorse((Horse) newRacer);
+                }
+                break;
+            case NEVALARENA:
+                if (newRacer instanceof SpeedBoat) {
+                    return this.navalArena.addSpeedBoat((SpeedBoat) newRacer);
+                }
+                if (newRacer instanceof RowBoat) {
+                    return this.navalArena.addRowBoat((RowBoat) newRacer);
+                }
+                break;
+            default:
+                break;
+        }
         return false;
     }
 
@@ -66,109 +71,84 @@ public class GameEngine {
         return activeArena;
     }
 
-    public void setArenaType(ArenaType activeArena) {
-        this.activeArena = activeArena;
+    public void initRace() {
+        switch (this.getArenaType()) {
+            case AERIALARENA:
+                this.airArena.initRace();
+                break;
+            case LANDARENA:
+                this.landArena.initRace();
+                break;
+            case NEVALARENA:
+                this.navalArena.initRace();
+                break;
+            default:
+                break;
+        }
     }
 
-    //function
-    public boolean setArena(Object arena)
-    {
-        if(arena instanceof AerialArena)
-        {
-            this.airArena=(AerialArena)arena;
-            this.activeArena=ArenaType.AERIALARENA;
+    public boolean setArena(Object arena) {
+        if (arena instanceof AerialArena) {
+            this.airArena = (AerialArena) arena;
+            this.setArenaType(ArenaType.AERIALARENA);
             return true;
         }
-        if(arena instanceof LandArena)
-        {
-            this.landArena=(LandArena)arena;
-            this.activeArena=ArenaType.LANDARENA;
+        if (arena instanceof NavalArena) {
+            this.navalArena = (NavalArena) arena;
+            this.setArenaType(ArenaType.NEVALARENA);
             return true;
         }
-        if(arena instanceof NavalArena)
-        {
-            this.navalArena=(NavalArena)arena;
-            this.activeArena=ArenaType.NEVALARENA;
+        if (arena instanceof LandArena) {
+            this.landArena = (LandArena) arena;
+            this.setArenaType(ArenaType.LANDARENA);
             return true;
         }
         return false;
     }
 
-    
-	/**
-	 * @param newRacer
-	 * @return false if the newRacer name exist, true otherwise.
-	 */
-    public boolean addRacer(Object newRacer)
-    {
-        if(newRacer instanceof Airplane && activeArena.equals(ArenaType.AERIALARENA))
-        {
-            if(this.airArena.addAirplane((Airplane)newRacer))return true;
-            return false;
-        }
-        if(newRacer instanceof Helicopter && activeArena.equals(ArenaType.AERIALARENA))
-        {
-            if(this.airArena.addHelicopters((Helicopter)newRacer))return true;
-            return false;
-        }
-        if(newRacer instanceof Horse && activeArena.equals(ArenaType.LANDARENA))
-        {
-            if(this.landArena.addHorse((Horse)newRacer))return true;
-            return false;
-        }
-        if(newRacer instanceof Car && activeArena.equals(ArenaType.LANDARENA))
-        {
-            if(this.landArena.addCar((Car)newRacer))return true;
-            return false;
-        }
-        if(newRacer instanceof RowBoat && activeArena.equals(ArenaType.NEVALARENA))
-        {
-            if(this.navalArena.addRowBoat((RowBoat)newRacer))return true;
-            return false;
-        }
-        if(newRacer instanceof SpeedBoat && activeArena.equals(ArenaType.NEVALARENA))
-        {
-            if(this.navalArena.addSpeedBoat((SpeedBoat)newRacer))return true;
-            return false;
-        }
-        return false;
+    // private!
+    // this is determined by arena type,
+    // and should only be changed by an arena change
+    private void setArenaType(ArenaType arenaType) {
+        this.activeArena = arenaType;
     }
 
-    public void initRace()
-    {
-        if(activeArena.equals(ArenaType.AERIALARENA))airArena.initRace();
-        if(activeArena.equals(ArenaType.LANDARENA))landArena.initRace();
-        if(activeArena.equals(ArenaType.NEVALARENA))navalArena.initRace();
+    public void startRace() {
+        switch (this.getArenaType()) {
+            case AERIALARENA:
+                while (this.airArena.hasActiveRacer()) {
+                    this.airArena.playTurn();
+                }
+                System.out.println("Aerial Race ended!");
+                for (Object o : airArena.getFinished()) {
+                    int place = airArena.getFinished().indexOf(o) + 1;
+                    System.out.println("#" + place + ": " + o);
+                }
+                break;
+            case LANDARENA:
+                while (this.landArena.hasActiveRacer()) {
+                    this.landArena.playTurn();
+                }
+                System.out.println("Land Race ended!");
+                for (Object o : landArena.getFinished()) {
+                    int place = landArena.getFinished().indexOf(o) + 1;
+                    System.out.println("#" + place + ": " + o);
+                }
+                break;
+            case NEVALARENA:
+                while (this.navalArena.hasActiveRacer()) {
+                    this.navalArena.playTurn();
+                }
+                System.out.println("Naval Race ended!");
+                for (Object o : navalArena.getFinished()) {
+                    int place = navalArena.getFinished().indexOf(o) + 1;
+                    System.out.println("#" + place + ": " + o);
+                }
+                break;
+            default:
+                break;
+        }
+
     }
 
-    public void startRace()
-    {
-        if(activeArena.equals(ArenaType.AERIALARENA))
-        {
-            while (airArena.hasActiveRacers())
-            {
-                airArena.playTurn();
-            }
-            System.out.println("Aerial Race ended!");
-            airArena.printWinners();
-        }
-        if(activeArena.equals(ArenaType.LANDARENA))
-        {
-            while (landArena.hasActiveRacers())
-            {
-                landArena.playTurn();
-            }
-            System.out.println("Land Race ended!");
-            landArena.printWinners();
-        }
-        if(activeArena.equals(ArenaType.NEVALARENA))
-        {
-            while (navalArena.hasActiveRacers())
-            {
-                navalArena.playTurn();
-            }
-            System.out.println("Naval Race ended!");
-            navalArena.printWinners();
-        }
-    }
 }

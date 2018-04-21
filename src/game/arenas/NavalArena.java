@@ -1,155 +1,126 @@
-package game.arenas;
-
-import game.racers.RowBoat;
-import game.racers.SpeedBoat;
-import utilities.Point;
-
-import java.util.ArrayList;
-
 /**
  * this class represent the Naval Arena with all needed components
  * @version 3.4.2018
  * @author Eliran gabay 203062831 & Linoy shriker 204027627
  */
+package game.arenas;
+
+import java.util.ArrayList;
+
+import game.racers.RowBoat;
+import game.racers.SpeedBoat;
+import utilities.Point;
+
 public class NavalArena {
+
+    public static final int MAX_RACERS = 5;
+    private static final double FRICTION = 0.7;
     private ArrayList<RowBoat> rowBoats;
     private ArrayList<SpeedBoat> speedBoats;
     private ArrayList<Object> finished;
-    private final double FRICTION = 0.7;
-    private final int MAX_RACERS = 5;
     private Point start;
     private Point finish;
-    private static int numOfPlayers=0;//count number of players in the race
+
+    public NavalArena(Point start, Point finish) {
+        this.setStart(new Point(start));
+        this.setFinish(new Point(finish));
+        this.setSpeedBoats(new ArrayList<>());
+        this.setRowBoats(new ArrayList<>());
+        this.setFinished(new ArrayList<>());
+    }
+
+    public boolean addRowBoat(RowBoat newRacer) {
+        if (this.isFull())
+            return false;
+        this.rowBoats.add(newRacer);
+        return true;
+    }
+
+    public boolean addSpeedBoat(SpeedBoat newRacer) {
+        if (this.isFull())
+            return false;
+        this.speedBoats.add(newRacer);
+        return true;
+    }
+
+    public int crossFinishLine(RowBoat rowBoat) {
+        this.finished.add(rowBoat);
+        return this.finished.size();
+    }
+
+    public int crossFinishLine(SpeedBoat speedBoat) {
+        this.finished.add(speedBoat);
+        return this.finished.size();
+    }
 
     /**
-     * this constructs a Naval Arena with a specified start and finish parameters
-     * and update finished, rowBoats and speedBoats.
-     * @param start 
-     * @param finish
+     * @return the finish
      */
-    public NavalArena(Point start, Point finish) {
-        this.start = new Point(start);
-        this.finish = new Point(finish);
-        finished = new ArrayList<Object>();
-        rowBoats = new ArrayList<RowBoat>();
-        speedBoats= new ArrayList<SpeedBoat>();
+    public Point getFinish() {
+        return this.finish;
     }
 
-	/**
-	 * @param RowBoat
-	 * @return false if the RowBoat name exist, true otherwise.
-	 */
-    //RowBoat
-    public boolean addRowBoat(RowBoat RowBoat) {
-        for(RowBoat player : rowBoats)
-        {
-            if (player.getName().equals(RowBoat.getName()))//if the rowboat name exist return flase
-            {
-                return false;
-            }
+    public ArrayList<Object> getFinished() {
+        return this.finished;
+    }
+
+    private int getNumOfRacers() {
+        return this.rowBoats.size() + this.speedBoats.size();
+    }
+
+    public Point getStart() {
+        return this.start;
+    }
+
+    public boolean hasActiveRacer() {
+        return ((this.speedBoats.size() > 0) || (this.rowBoats.size() > 0));
+    }
+
+    public void initRace() {
+        for (SpeedBoat sb : this.speedBoats) {
+            sb.initRace(this, this.start, this.finish);
         }
-        if(speedBoats.size()+rowBoats.size()>=MAX_RACERS)return false;//make sure the number of rowboats and speedboats didnt exceed the max num of racers
-        rowBoats.add(RowBoat);//add to array
-        numOfPlayers++;
-        return true;
-    }
-
-	/**
-	 * @param SpeedBoat
-	 * @return false if the SpeedBoat name exist, true otherwise.
-	 */
-    //SpeedBoat
-    public boolean addSpeedBoat(SpeedBoat SpeedBoat) {
-        for(SpeedBoat player : speedBoats)
-        {
-            if (player.getName().equals(SpeedBoat.getName()))//if the speedboat name exist return flase
-            {
-                return false;
-            }
-        }
-        if(speedBoats.size()+rowBoats.size()>=MAX_RACERS)return false;//make sure the number of rowboats and speedboats didnt exceed the max num of racers
-        speedBoats.add(SpeedBoat);//add to array
-        numOfPlayers++;
-        return true;
-    }
-
-	/**
-	 * @param RowBoat
-	 * @return finished.size(); array size and RowBoat position
-	 */
-    //RowBoat
-    public int crossFinishLine(RowBoat RowBoat) {// adds racer to finished, returns his place
-        for(Object player :finished)
-        {
-            if(player.equals(RowBoat))return finished.size();
-        }
-        finished.add(RowBoat);
-        return finished.size(); //return array size and RowBoat position
-    }
-
-	/**
-	 * @param SpeedBoat
-	 * @return finished.size(); array size and SpeedBoat position
-	 */
-    //SpeedBoat
-    public int crossFinishLine(SpeedBoat SpeedBoat) {// adds racer to finished, returns his place
-        for(Object player :finished)
-        {
-            if(player.equals(SpeedBoat))return finished.size();
-        }
-        finished.add(SpeedBoat);
-        return finished.size(); //return array size and SpeedBoat position
-    }
-
-	/**
-	 * @return hasActive  if there are active racers(true/false)
-	 */
-    public boolean hasActiveRacers() {
-        boolean hasActive = true;
-        if (finished.size()==numOfPlayers)
-            hasActive = false;
-        return hasActive;// returns if there are active racers
-    }
-
-    public void initRace() {// init each racer
-        for(RowBoat player : rowBoats) {
-            player.initRace(this, start, finish);
-        }
-        for(SpeedBoat player : speedBoats) {
-            player.initRace(this, start, finish);
+        for (RowBoat rb : this.rowBoats) {
+            rb.initRace(this, this.start, this.finish);
         }
     }
 
-    public void playTurn() {// signal each racer to make a move, remove finished racers
-        int flag=0;
-        if (hasActiveRacers()) {
-            for(RowBoat player : rowBoats){
-                if (player.move(FRICTION).getX()>=this.finish.getX()) {
-                    crossFinishLine(player);
-                    flag=1;
-                }
-            }
-            for(SpeedBoat player : speedBoats){
-                if (player.move(FRICTION).getX()>=this.finish.getX()) {
-                    crossFinishLine(player);
-                    flag=1;
-                }
-            }
-            if(flag==1)
-            {
-                for(Object player:finished)//remove the player form the race
-                {
-                    if(player instanceof RowBoat)rowBoats.remove(player);
-                    if(player instanceof SpeedBoat)speedBoats.remove(player);
-                }
-            }
+    private boolean isFull() {
+        return this.getNumOfRacers() == NavalArena.MAX_RACERS;
+    }
+
+    public void playTurn() {
+
+        for (SpeedBoat sb : this.speedBoats) {
+            sb.move(NavalArena.FRICTION);
+        }
+        for (RowBoat rb : this.rowBoats) {
+            rb.move(NavalArena.FRICTION);
+        }
+        for (Object racer : this.finished) {
+            this.speedBoats.remove(racer);
+            this.rowBoats.remove(racer);
         }
     }
 
-    public void printWinners() {//print the winners
-        for(int i=0; i<finished.size();i++) {
-            System.out.println("#" + (i + 1) + ":  " +(finished.get(i)));
-        }
+    public void setFinish(Point finish) {
+        this.finish = finish;
+    }
+
+    public void setFinished(ArrayList<Object> finished) {
+        this.finished = finished;
+    }
+
+    public void setRowBoats(ArrayList<RowBoat> rowBoats) {
+        this.rowBoats = rowBoats;
+    }
+
+    public void setSpeedBoats(ArrayList<SpeedBoat> speedBoats) {
+        this.speedBoats = speedBoats;
+    }
+
+    public void setStart(Point start) {
+        this.start = start;
     }
 
 }

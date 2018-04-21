@@ -1,40 +1,41 @@
-package utilities;
 /**
  * this class represent the Airplane as a racer with all needed components
  * @version 3.4.2018
  * @author Eliran gabay 203062831 & Linoy shriker 204027627
  */
+package utilities;
+
 public class Point {
+
+    public static final int MAX_X = 1000000;
+    public static final int MIN_X = 0;
+    public static final int MAX_Y = 800;
+    public static final int MIN_Y = 0;
+
     private double x;
     private double y;
-    private final double MIN_X=0,MAX_X=10000000,MIN_Y=0,MAX_Y=800;
 
-    /**
-     * this constructs a Point with a Location X,Y
-     * @param x Location double
-     * @param y Location double
-     */
-    //constructor
-    public Point(double x, double y)
-    {
-        setX(x);
-        setY(y);
-    }
-    /**
-     * this copy constructs a Point with a other Point
-     * @param other Point containing X,Y Location double
-     */
-    //copy constructor
-    public Point(Point other)
-    {
-        setX(other.getX());
-        setY(other.getY());
+    public Point() {
+        this(0, 0);
     }
 
-    /**
-     * ALL SETTERS AND GETTERS PARAMETERS& RETURN VALUES ARE:
-     * X,Y
-     */
+    public Point(double x, double y) {
+        if (!(this.setX(x))) {
+            this.x = 0;
+        }
+        if (!(this.setY(y))) {
+            this.y = 0;
+        }
+    }
+
+    public Point(Point other) {
+        if (other == null) {
+            other = new Point(0, 0);
+        }
+        this.setX(other.x);
+        this.setY(other.y);
+    }
+
     public double getX() {
         return x;
     }
@@ -44,30 +45,24 @@ public class Point {
     }
 
     public boolean setX(double x) {
-        if(x>=MIN_X&&x<=MAX_X)
-        {
-            this.x=x;
-            return true;
+        if (x > MAX_X || x < MIN_X) {
+            return false;
         }
-        return false;
+        this.x = x;
+        return true;
     }
 
     public boolean setY(double y) {
-        if(y>=MIN_X&&y<=MAX_X)
-        {
-            this.y=y;
-            return true;
+        if (y > MAX_Y || y < MIN_Y) {
+            return false;
         }
-        return false;
+        this.y = y;
+        return true;
     }
 
-    /**
-     * @return the string that contains all necessary info
-     */
     @Override
-    public String toString()
-    {
-       return "("+this.getX()+","+this.getY()+")";
+    public String toString() {
+        return "(" + this.x + "," + this.y + ")";
     }
 
 }
