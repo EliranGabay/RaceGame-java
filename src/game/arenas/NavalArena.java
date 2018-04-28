@@ -7,12 +7,12 @@ package game.arenas;
 
 import java.util.ArrayList;
 
-import game.racers.RowBoat;
-import game.racers.SpeedBoat;
+import game.racers.naval.RowBoat;
+import game.racers.naval.SpeedBoat;
 import utilities.Point;
 
 public class NavalArena {
-
+/*
     public static final int MAX_RACERS = 5;
     private static final double FRICTION = 0.7;
     private ArrayList<RowBoat> rowBoats;
@@ -56,6 +56,7 @@ public class NavalArena {
     /**
      * @return the finish
      */
+/*
     public Point getFinish() {
         return this.finish;
     }
@@ -122,5 +123,5 @@ public class NavalArena {
     public void setStart(Point start) {
         this.start = start;
     }
-
+*/
 }

@@ -9,15 +9,15 @@ import game.arenas.AerialArena;
 import game.arenas.ArenaType;
 import game.arenas.LandArena;
 import game.arenas.NavalArena;
-import game.racers.Airplane;
-import game.racers.Car;
-import game.racers.Helicopter;
-import game.racers.Horse;
-import game.racers.RowBoat;
-import game.racers.SpeedBoat;
+import game.racers.air.Airplane;
+import game.racers.land.Car;
+import game.racers.air.Helicopter;
+import game.racers.land.Horse;
+import game.racers.naval.RowBoat;
+import game.racers.naval.SpeedBoat;
 
 public class GameEngine {
-
+/*
     private static GameEngine instance;
 
     public static GameEngine getInstance() {
@@ -150,5 +150,5 @@ public class GameEngine {
         }
 
     }
-
+*/
 }

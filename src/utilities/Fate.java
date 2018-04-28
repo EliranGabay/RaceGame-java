@@ -19,15 +19,15 @@ public class Fate {
 	}
 
 	private static int generateTurns() {
-		return rand.nextInt(5);
+		return rand.nextInt(5)+1;
 	}
 	
 	public static boolean breakDown() {
 		return rand.nextBoolean();
 	}
 
-	public static Mishap generateMishap() {
+	/*public static Mishap generateMishap() {
 			return new Mishap(generateFixable(), generateTurns(), generateReduction());
-	}
+	}*/
 
 }
