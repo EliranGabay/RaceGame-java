@@ -3,16 +3,13 @@
  */
 package utilities;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-
-/*import factory.RaceBuilder;
+import factory.RaceBuilder;
 import game.arenas.Arena;
 import game.arenas.air.AerialArena;
 import game.arenas.exceptions.RacerLimitException;
 import game.arenas.exceptions.RacerTypeException;
 import game.arenas.land.LandArena;
-import game.arenas.naval.NavalArena;*/
+import game.arenas.naval.NavalArena;
 import game.racers.Racer;
 import game.racers.air.Airplane;
 import game.racers.air.Helicopter;
@@ -21,6 +18,8 @@ import game.racers.land.Car;
 import game.racers.land.Horse;
 import game.racers.naval.RowBoat;
 import game.racers.naval.SpeedBoat;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import utilities.EnumContainer.Color;
 
 /**
@@ -29,7 +28,7 @@ import utilities.EnumContainer.Color;
  */
 public class Program {
 
-	/*private static Arena arena;
+	private static Arena arena;
 	private static RaceBuilder builder = RaceBuilder.getInstance();;
 	private static ArrayList<Racer> racers;
 
@@ -37,9 +36,9 @@ public class Program {
 		for (Racer racer : racers) {
 			try {
 				arena.addRacer(racer);
-			} catch (RacerLimitException e) {
-				System.out.println("[Error] " + e.getMessage());
 			} catch (RacerTypeException e) {
+				System.out.println("[Error] " + e.getMessage());
+			}catch (RacerLimitException e) {
 				System.out.println("[Error] " + e.getMessage());
 			}
 		}
@@ -124,7 +123,7 @@ public class Program {
 		testDefaults();
 		System.out.println("----------");
 		////////////////////////////////////////////
-		/*System.out.println("New Air Race");
+		System.out.println("New Air Race");
 		initAirRace();
 		arena.initRace();
 		startRace();
@@ -156,8 +155,7 @@ public class Program {
 		}
 		System.out.println("Race Compleated!");
 	}
-*/
-	}
+
 	private static void testDefaults(){
 		System.out.println("Testing default valus and introduction.");
 		(new Car()).introduce();

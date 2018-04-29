@@ -1,33 +1,48 @@
 /**
- * this class represent the Car as a racer with all needed components
- * @version 3.4.2018
- * @author Eliran gabay 203062831 & Linoy shriker 204027627
+ * this class represent the Car as a LandRacer with all needed components
+ * @version 29.42018
+ * @author Eliran gabay 203062831
  */
 package game.racers.land;
 
-import utilities.EnumContainer;
+import utilities.EnumContainer.Color;
+import utilities.EnumContainer.Engine;
+
 
 public class Car extends LandRacer {
 
-    private EnumContainer.Engine engine;
+    private Engine engine;
+
+    /**
+     * this default constructs a Car
+     */
     public Car()
     {
-        super("Car #",400,20,EnumContainer.Color.RED,4);
+        super("Car #",400,20,Color.RED,4);
         this.setName(this.getName()+getSerialNumber());
-        this.setEngine(EnumContainer.Engine.FOURSTROKE);
+        this.setEngine(Engine.FOURSTROKE);
     }
 
-    public Car(String name, double maxSpeed, double acceleration, EnumContainer.Color color, int numOfWheels)
+    /**
+     * this constructs a Car
+     * @param name
+     * @param maxSpeed
+     * @param acceleration
+     * @param color
+     * @param numOfWheels
+     */
+    public Car(String name, double maxSpeed, double acceleration, Color color, int numOfWheels)
     {
         super(name,maxSpeed,acceleration,color,numOfWheels);
+        this.setEngine(Engine.FOURSTROKE);
     }
 
     //Getter and Setter
-    public EnumContainer.Engine getEngine() {
+    public Engine getEngine() {
         return engine;
     }
 
-    public void setEngine(EnumContainer.Engine engine) {
+    public void setEngine(Engine engine) {
         this.engine = engine;
     }
 

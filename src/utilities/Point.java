@@ -1,7 +1,7 @@
 /**
  * this class represent the Airplane as a racer with all needed components
- * @version 3.4.2018
- * @author Eliran gabay 203062831 & Linoy shriker 204027627
+ * @version 29.42018
+ * @author Eliran gabay 203062831
  */
 package utilities;
 
@@ -15,10 +15,18 @@ public class Point {
     private double x;
     private double y;
 
+    /**
+     * this default constructs a Point
+     */
     public Point() {
         this(0, 0);
     }
 
+    /**
+     * this constructs a Point
+     * @param x
+     * @param y
+     */
     public Point(double x, double y) {
         if (!(this.setX(x))) {
             this.x = 0;
@@ -28,6 +36,10 @@ public class Point {
         }
     }
 
+    /**
+     * this copy constructs of Point
+     * @param other
+     */
     public Point(Point other) {
         if (other == null) {
             other = new Point(0, 0);
@@ -36,6 +48,7 @@ public class Point {
         this.setY(other.y);
     }
 
+    //Getter and Setter
     public double getX() {
         return x;
     }

@@ -26,8 +26,8 @@ public class Fate {
 		return rand.nextBoolean();
 	}
 
-	/*public static Mishap generateMishap() {
+	public static Mishap generateMishap() {
 			return new Mishap(generateFixable(), generateTurns(), generateReduction());
-	}*/
+	}
 
 }

@@ -1,26 +1,40 @@
 /**
- * this class represent the RowBoat as a racer with all needed components
- * @version 3.4.2018
- * @author Eliran gabay 203062831 & Linoy shriker 204027627
+ * this class represent the RowBoat as a NavalRacer with all needed components
+ * @version 29.42018
+ * @author Eliran gabay 203062831
  */
 package game.racers.naval;
 
 
-import utilities.EnumContainer;
+import utilities.EnumContainer.Color;
+import utilities.EnumContainer.BoatType;
+import utilities.EnumContainer.Team;
 
 public class RowBoat extends NavalRacer{
 
+    /**
+     * * this default constructs a RowBoat
+     */
     public RowBoat()
     {
-        super("RowBoat #",75,10,EnumContainer.Color.RED);
+        super("RowBoat #",75,10,Color.RED);
         this.setName(this.getName()+getSerialNumber());
-        this.setType(EnumContainer.RowType.SKULLING);
-        this.setTeam(EnumContainer.Team.DOUBLE);
+        this.setType(BoatType.SKULLING);
+        this.setTeam(Team.DOUBLE);
     }
 
-    public RowBoat(String name, double maxSpeed, double acceleration, EnumContainer.Color color)
+    /**
+     * * this constructs a RowBoat
+     * @param name
+     * @param maxSpeed
+     * @param acceleration
+     * @param color
+     */
+    public RowBoat(String name, double maxSpeed, double acceleration, Color color)
     {
         super(name,maxSpeed,acceleration,color);
+        this.setType(BoatType.SKULLING);
+        this.setTeam(Team.DOUBLE);
     }
 }
 

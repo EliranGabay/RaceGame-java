@@ -1,35 +1,66 @@
+/**
+ * this class represent the Racer with all needed components
+ * @version 29.42018
+ * @author Eliran gabay 203062831
+ */
 package game.racers;
 
-import utilities.EnumContainer;
+import game.arenas.Arena;
+import utilities.EnumContainer.Color;
+import utilities.Fate;
+import utilities.Mishap;
 import utilities.Point;
+
 
 public class Racer {
 
-    private static int SERIAL_NUMBER=0;
+    private static int SERIAL_NUMBER=1;
     private int serialNumber;
     private String name;
     private Point currentLocation,finish;
-    private double maxSpeed,acceleration,currentSpeed,failureProbability;
-    private EnumContainer.Color color;
-    //private Arena arena;
+    private double maxSpeed,acceleration,currentSpeed,failureProbability,tempAcceleration;
+    private Color color;
+    private Arena arena;
+    private Mishap mishap;
 
-    public Racer(String name, double maxSpeed, double acceleration, EnumContainer.Color color)
+
+    /***
+     * this constructs a Racer with a name,acceleration,color
+     * @param name
+     * @param maxSpeed
+     * @param acceleration
+     * @param color
+     */
+    public Racer(String name, double maxSpeed, double acceleration, Color color)
     {
         this.setSerialNumber(SERIAL_NUMBER++);
         this.setName(name);
         this.setMaxSpeed(maxSpeed);
         this.setAcceleration(acceleration);
         this.setColor(color);
+        this.tempAcceleration=acceleration;
     }
 
     //Methods
-    /*public void initRace(Arena arena, Point start, Point finish)
+
+    /***
+     * set the arena and finish point, move to start point.
+     * @param arena
+     * @param start
+     * @param finish
+     */
+    public void initRace(Arena arena, Point start, Point finish)
     {
         this.setArena(arena);
         this.setCurrentLocation(start);
         this.setFinish(finish);
-    }*/
+    }
 
+    /**
+     * move function and mishap
+     * @param friction
+     * @return currentLocation
+     */
     public Point move(double friction)
     {
         if (this.currentSpeed < this.maxSpeed) {
@@ -42,21 +73,44 @@ public class Racer {
                 this.currentLocation.getY());
         this.setCurrentLocation(newLocation);
 
-        // *has a chance for failure
+        if (this.currentLocation.getX() >= this.finish.getX()) {
+            this.arena.crossFinishLine(this);
+        }
+
+        if(mishap==null)
+        {
+            if(Fate.breakDown())//create new mishap
+            {
+                mishap= Fate.generateMishap();
+                System.out.print(this.getName()+" Has a new mishap! "+mishap.toString()+"\n");
+            }
+        }
+        else
+        { //clear the mishap by turn
+            this.setAcceleration(this.getAcceleration()*mishap.getReductionFactor());
+            mishap.nextTurn();
+            if(mishap.getTurnsToFix()==0) { mishap=null; }
+        }
 
         return this.currentLocation;
     }
 
-    public String describeSpecific(){return "";}
+    public String describeSpecific(){return "";}////Override method for print custom details
 
     public String describeRacer(){return "name:"+ this.getName()+", SerialNumber:"+ this.getSerialNumber()+
-            ", maxSpeed:"+ this.getMaxSpeed()+ ", acceleration:"+this.getAcceleration()+ ", color:"+ this.getColor()+ describeSpecific();}
+            ", maxSpeed:"+ this.getMaxSpeed()+ ", acceleration:"+this.tempAcceleration+ ", color:"+ this.getColor()+ describeSpecific();}
 
+    /***
+     * Prints all the details about the Racer by describeRacer,describeSpecific;
+      */
     public void introduce()
     {
         System.out.print("["+this.className()+"] "+ this.describeRacer()+"\n");
     }
 
+    /**
+     * @return Class name
+     */
     public String className(){return this.getClass().getSimpleName();}
 
     //Getter and Setter
@@ -122,15 +176,15 @@ public class Racer {
         this.failureProbability = failureProbability;
     }
 
-    public EnumContainer.Color getColor() {
+    public Color getColor() {
         return color;
     }
 
-    public void setColor(EnumContainer.Color color) {
+    public void setColor(Color color) {
         this.color = color;
     }
 
-    /*public Arena getArena() { return arena; }
+    public Arena getArena() { return arena; }
 
-    public void setArena(Arena arena) { this.arena = arena; }*/
+    public void setArena(Arena arena) { this.arena = arena; }
 }

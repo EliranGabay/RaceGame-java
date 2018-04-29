@@ -8,7 +8,7 @@ package utilities;
  * To set a value:
  * 		this.vision = EnumContainer.Vision.Sunny
  * 
- * @author Bar Ohayon
+ * @author eliran gabay 203062831
  *
  */
 public class EnumContainer {
@@ -32,11 +32,41 @@ public class EnumContainer {
 		THOROUGHBRED,STANDARDBRED,MORGAN,FRIESIAN
 	}
 
-	public static enum RowType{
+	public static enum BoatType{
 		SKULLING,SWEEP
 	}
 
 	public static enum Team{
 		SINGLE,DOUBLE,QUAD,EIGHT
+	}
+
+	public  static enum Weather{
+		DRY,RAIN,SNOW
+	}
+	public  static enum Height{
+		LOW,MEDIUM,HIGH
+	}
+	public  static enum Wind{
+		LOW,MEDIUM,HIGH
+	}
+
+	public  static enum Water {
+		SALTED,SWEET
+	}
+
+	public  static enum NavalSurface{
+		FLAT,WAVY
+	}
+
+	public  static enum Body{
+		SEA,LAKE,RIVER,OCEAN
+	}
+
+	public  static enum Coverage{
+		SAND,GRASS,MUD
+	}
+
+	public  static enum LandSurface{
+		FLAT,MOUNTAIN
 	}
 }

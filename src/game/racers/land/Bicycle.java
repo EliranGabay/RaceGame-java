@@ -1,29 +1,48 @@
+/**
+ * this class represent the Bicycle as a LandRacer with all needed components
+ * @version 29.42018
+ * @author Eliran gabay 203062831
+ */
 package game.racers.land;
 
-import utilities.EnumContainer;
+import utilities.EnumContainer.Color;
+import utilities.EnumContainer.BicycleType;
+
 
 public class Bicycle extends LandRacer {
 
-    private EnumContainer.BicycleType type;
+    private BicycleType type;
 
+    /**
+     * this default constructs a Bicycle
+     */
     public Bicycle()
     {
-        super("Bicycle #",270,10,EnumContainer.Color.GREEN,2);
+        super("Bicycle #",270,10, Color.GREEN,2);
         this.setName(this.getName()+getSerialNumber());
-        this.setType(EnumContainer.BicycleType.MOUNTAIN);
+        this.setType(BicycleType.MOUNTAIN);
     }
 
-    public Bicycle(String name, double maxSpeed, double acceleration, EnumContainer.Color color, int numOfWheels)
+    /**
+     * this constructs a Bicycle
+     * @param name
+     * @param maxSpeed
+     * @param acceleration
+     * @param color
+     * @param numOfWheels
+     */
+    public Bicycle(String name, double maxSpeed, double acceleration, Color color, int numOfWheels)
     {
         super(name,maxSpeed,acceleration,color,numOfWheels);
+        this.setType(BicycleType.MOUNTAIN);
     }
 
     //Getter and Setter
-    public EnumContainer.BicycleType getType() {
+    public BicycleType getType() {
         return type;
     }
 
-    public void setType(EnumContainer.BicycleType type) {
+    public void setType(BicycleType type) {
         this.type = type;
     }
 
