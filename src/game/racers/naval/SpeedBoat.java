@@ -6,35 +6,44 @@
 package game.racers.naval;
 
 
+import game.racers.Racer;
+import utilities.EnumContainer;
+import utilities.EnumContainer.BoatType;
 import utilities.EnumContainer.Color;
 import utilities.EnumContainer.Team;
-import utilities.EnumContainer.BoatType;
 
+public class SpeedBoat extends Racer implements INavalRacer {
+    private static final String CLASS_NAME = "SpeedBoat";
 
-public class SpeedBoat extends NavalRacer{
+    private static final double DEFAULT_MAX_SPEED = 170;
+    private static final double DEFAULT_ACCELERATION = 5;
+    private static final Color DEFAULT_color = Color.RED;
 
-    /**
-     * this default constructs a SpeedBoat
-     */
-    public SpeedBoat()
-    {
-        super("SpeedBoat #",170,5, Color.RED);
-        this.setName(this.getName()+getSerialNumber());
-        this.setType(BoatType.SKULLING);
-        this.setTeam(Team.DOUBLE);
+    private EnumContainer.BoatType type;
+    private EnumContainer.Team team;
+
+    public SpeedBoat() {
+        this(CLASS_NAME + " #" + lastSerialNumber, DEFAULT_MAX_SPEED, DEFAULT_ACCELERATION, DEFAULT_color);
     }
 
-    /**
-     * this constructs a SpeedBoat
-     * @param name
-     * @param maxSpeed
-     * @param acceleration
-     * @param color
-     */
-    public SpeedBoat(String name, double maxSpeed, double acceleration, Color color)
-    {
-        super(name,maxSpeed,acceleration,color);
-        this.setType(BoatType.SKULLING);
-        this.setTeam(Team.DOUBLE);
+    public SpeedBoat(String name, double maxSpeed, double acceleration, utilities.EnumContainer.Color color) {
+        super(name, maxSpeed, acceleration, color);
+        this.type = BoatType.SKULLING;
+        this.team = Team.DOUBLE;
     }
+
+    @Override
+    public String className() {
+        return CLASS_NAME;
+    }
+
+    @Override
+    public String describeSpecific() {
+        String s = "";
+        s += ", Type: " + this.type;
+        s += ", Team: " + this.team;
+
+        return s;
+    }
+
 }

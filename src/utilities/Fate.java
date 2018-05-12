@@ -6,12 +6,16 @@ public class Fate {
 
 	private static Random rand = new Random();
 
-	public static void setSeed(int seed) {
-		rand.setSeed(seed);
+	public static boolean breakDown() {
+		return rand.nextBoolean();
 	}
 
 	public static boolean generateFixable() {
 		return rand.nextInt(10) > 7;
+	}
+
+	public static Mishap generateMishap() {
+		return new Mishap(generateFixable(), generateTurns(), generateReduction());
 	}
 
 	private static float generateReduction() {
@@ -19,15 +23,11 @@ public class Fate {
 	}
 
 	private static int generateTurns() {
-		return rand.nextInt(5)+1;
-	}
-	
-	public static boolean breakDown() {
-		return rand.nextBoolean();
+		return rand.nextInt(5) + 1;
 	}
 
-	public static Mishap generateMishap() {
-			return new Mishap(generateFixable(), generateTurns(), generateReduction());
+	public static void setSeed(int seed) {
+		rand.setSeed(seed);
 	}
 
 }

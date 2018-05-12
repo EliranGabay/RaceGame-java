@@ -5,32 +5,43 @@
  */
 package game.racers.air;
 
-import utilities.EnumContainer;
+import game.racers.Racer;
+import game.racers.Wheeled;
+import utilities.EnumContainer.Color;
 
-public class Airplane extends AerialRacer{
+public class Airplane extends Racer implements IAerialRacer {
+    private static final String CLASS_NAME = "Airplane";
 
-    /**
-     * this default constructs a Airplane
-     */
-    public Airplane()
-    {
-        super("Airplane #",885,100,EnumContainer.Color.BLACK,3);
-        this.setName(this.getName()+getSerialNumber());
+    private static final int DEFAULT_WHEELS = 3;
+    private static final double DEFAULT_MAX_SPEED = 885;
+    private static final double DEFAULT_ACCELERATION = 100;
+    private static final Color DEFAULT_color = Color.BLACK;
+    private Wheeled wheeled;
+
+    public Airplane() {
+        this(CLASS_NAME + " #" + lastSerialNumber, DEFAULT_MAX_SPEED, DEFAULT_ACCELERATION, DEFAULT_color,
+                DEFAULT_WHEELS);
     }
 
     /**
-     * this constructs a Airplane
      * @param name
      * @param maxSpeed
      * @param acceleration
      * @param color
-     * @param numOfWheels
      */
-    public Airplane(String name, double maxSpeed, double acceleration, EnumContainer.Color color, int numOfWheels)
-    {
-        super(name,maxSpeed,acceleration,color,numOfWheels);
+    public Airplane(String name, double maxSpeed, double acceleration, utilities.EnumContainer.Color color,
+                    int numOfWheels) {
+        super(name, maxSpeed, acceleration, color);
+        this.wheeled = new Wheeled(numOfWheels);
     }
 
     @Override
-    public String describeSpecific(){return ", Number of Wheels: "+this.wheeled.getNumOfWheels();}
+    public String className() {
+        return CLASS_NAME;
+    }
+
+    @Override
+    public String describeSpecific() {
+        return this.wheeled.describeSpecific();
+    }
 }

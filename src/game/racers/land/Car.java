@@ -5,47 +5,46 @@
  */
 package game.racers.land;
 
+import game.racers.Racer;
+import game.racers.Wheeled;
 import utilities.EnumContainer.Color;
 import utilities.EnumContainer.Engine;
 
+public class Car extends Racer implements ILandRacer {
 
-public class Car extends LandRacer {
+    private static final String CLASS_NAME = "Car";
+
+    private static final int DEFAULT_WHEELS = 4;
+    private static final double DEFAULT_MAX_SPEED = 400;
+    private static final double DEFAULT_ACCELERATION = 20;
+    private static final Color DEFAULT_color = Color.RED;
 
     private Engine engine;
+    private Wheeled wheeled;
 
-    /**
-     * this default constructs a Car
-     */
-    public Car()
-    {
-        super("Car #",400,20,Color.RED,4);
-        this.setName(this.getName()+getSerialNumber());
-        this.setEngine(Engine.FOURSTROKE);
+    public Car() {
+        this(CLASS_NAME + " #" + lastSerialNumber, DEFAULT_MAX_SPEED, DEFAULT_ACCELERATION, DEFAULT_color,
+                DEFAULT_WHEELS);
     }
 
-    /**
-     * this constructs a Car
-     * @param name
-     * @param maxSpeed
-     * @param acceleration
-     * @param color
-     * @param numOfWheels
-     */
-    public Car(String name, double maxSpeed, double acceleration, Color color, int numOfWheels)
-    {
-        super(name,maxSpeed,acceleration,color,numOfWheels);
-        this.setEngine(Engine.FOURSTROKE);
-    }
-
-    //Getter and Setter
-    public Engine getEngine() {
-        return engine;
-    }
-
-    public void setEngine(Engine engine) {
-        this.engine = engine;
+    public Car(String name, double maxSpeed, double acceleration, utilities.EnumContainer.Color color,
+               int numOfWheels) {
+        super(name, maxSpeed, acceleration, color);
+        this.wheeled = new Wheeled(numOfWheels);
+        this.engine = Engine.FOURSTROKE;
     }
 
     @Override
-    public String describeSpecific(){return ", Number of Wheels: "+this.wheeled.getNumOfWheels()+", Engine Type: "+this.getEngine();}
+    public String className() {
+        return CLASS_NAME;
+    }
+
+    @Override
+    public String describeSpecific() {
+        String s = "";
+        s += this.wheeled.describeSpecific();
+        s += ", Engine Type: " + this.engine;
+
+        return s;
+    }
 }

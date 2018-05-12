@@ -5,84 +5,79 @@
  */
 package game.arenas.air;
 import game.arenas.Arena;
+import game.arenas.exceptions.RacerLimitException;
+import game.arenas.exceptions.RacerTypeException;
 import game.racers.Racer;
-import game.racers.air.AerialRacer;
-import utilities.EnumContainer.Vision;
-import utilities.EnumContainer.Weather;
-import utilities.EnumContainer.Height;
-import utilities.EnumContainer.Wind;
-
+import game.racers.air.IAerialRacer;
+import utilities.EnumContainer;
 
 public class AerialArena extends Arena {
 
-    private Vision vision;
-    private Weather weather;
-    private Height height;
-    private Wind wind;
+    private final static double DEFAULT_FRICTION = 0.4;
+    private final static int DEFAULT_MAX_RACERS = 6;
+    private final static int DEFAULT_LENGTH = 1500;
 
-    /**
-     * this default constructs a AerialArena
-     */
-    public AerialArena()
-    {
-        super(1500,6,0.4);
-        this.setVision(Vision.SUNNY);
-        this.setWeather(Weather.DRY);
-        this.setHeight(Height.HIGH);
-        this.setWind(Wind.HIGH);
+    EnumContainer.Vision vision;
+    EnumContainer.Weather wather;
+    EnumContainer.Height height;
+    EnumContainer.Wind wind;
+
+    public AerialArena() {
+        this(DEFAULT_LENGTH, DEFAULT_MAX_RACERS);
     }
 
     /**
-     * this constructs a AerialArena
      * @param length
+     *            The x value for the finish line
      * @param maxRacers
+     *            Maximum number of racers
      */
-    public AerialArena(double length, int maxRacers)
-    {
-        super(length,maxRacers,0.4);
-        this.setVision(Vision.SUNNY);
-        this.setWeather(Weather.DRY);
-        this.setHeight(Height.HIGH);
-        this.setWind(Wind.HIGH);
+    public AerialArena(double length, int maxRacers) {
+        super(length, maxRacers, DEFAULT_FRICTION);
+        this.vision = EnumContainer.Vision.SUNNY;
+        this.wather = EnumContainer.Weather.DRY;
+        this.height = EnumContainer.Height.HIGH;
+        this.wind = EnumContainer.Wind.HIGH;
     }
 
     @Override
-    public boolean racerTypeArena(Racer racer)
-    {
-        if(racer instanceof AerialRacer)return true;
-        return false;
+    public void addRacer(Racer newRacer) throws RacerLimitException, RacerTypeException {
+        if (newRacer instanceof IAerialRacer) {
+            super.addRacer(newRacer);
+        } else {
+            throw new RacerTypeException(newRacer.className(), "Aerial");
+        }
     }
 
-    //Getter and Setter
-    public Vision getVision() {
-        return vision;
-    }
-
-    public void setVision(Vision vision) {
-        this.vision = vision;
-    }
-
-    public Weather getWeather() {
-        return weather;
-    }
-
-    public void setWeather(Weather weather) {
-        this.weather = weather;
-    }
-
-    public Height getHeight() {
+    public EnumContainer.Height getHeight() {
         return height;
     }
 
-    public void setHeight(Height height) {
-        this.height = height;
+    public EnumContainer.Vision getVision() {
+        return vision;
     }
 
-    public Wind getWind() {
+    public EnumContainer.Weather getWather() {
+        return wather;
+    }
+
+    public EnumContainer.Wind getWind() {
         return wind;
     }
 
-    public void setWind(Wind wind) {
+    public void setHeight(EnumContainer.Height height) {
+        this.height = height;
+    }
+
+    public void setVision(EnumContainer.Vision vision) {
+        this.vision = vision;
+    }
+
+    public void setWather(EnumContainer.Weather wather) {
+        this.wather = wather;
+    }
+
+    public void setWind(EnumContainer.Wind wind) {
         this.wind = wind;
     }
 }

@@ -5,47 +5,46 @@
  */
 package game.racers.land;
 
-import utilities.EnumContainer.Color;
+import game.racers.Racer;
+import game.racers.Wheeled;
+import utilities.EnumContainer;
 import utilities.EnumContainer.BicycleType;
+import utilities.EnumContainer.Color;
 
+public class Bicycle extends Racer implements ILandRacer {
 
-public class Bicycle extends LandRacer {
+    private static final String CLASS_NAME = "Bicycle";
+    private static final String DEFUALT_NAME = CLASS_NAME + " #" + lastSerialNumber;
 
-    private BicycleType type;
+    private static final int DEFAULT_WHEELS = 2;
+    private static final double DEFAULT_MAX_SPEED = 270;
+    private static final double DEFAULT_ACCELERATION = 10;
+    private static final Color DEFAULT_color = Color.GREEN;
 
-    /**
-     * this default constructs a Bicycle
-     */
-    public Bicycle()
-    {
-        super("Bicycle #",270,10, Color.GREEN,2);
-        this.setName(this.getName()+getSerialNumber());
-        this.setType(BicycleType.MOUNTAIN);
+    private EnumContainer.BicycleType type;
+    private Wheeled wheeled;
+
+    public Bicycle() {
+        this(DEFUALT_NAME, DEFAULT_MAX_SPEED, DEFAULT_ACCELERATION, DEFAULT_color, DEFAULT_WHEELS);
     }
 
-    /**
-     * this constructs a Bicycle
-     * @param name
-     * @param maxSpeed
-     * @param acceleration
-     * @param color
-     * @param numOfWheels
-     */
-    public Bicycle(String name, double maxSpeed, double acceleration, Color color, int numOfWheels)
-    {
-        super(name,maxSpeed,acceleration,color,numOfWheels);
-        this.setType(BicycleType.MOUNTAIN);
-    }
-
-    //Getter and Setter
-    public BicycleType getType() {
-        return type;
-    }
-
-    public void setType(BicycleType type) {
-        this.type = type;
+    public Bicycle(String name, double maxSpeed, double acceleration, utilities.EnumContainer.Color color,
+                   int numOfWheels) {
+        super(name, maxSpeed, acceleration, color);
+        this.wheeled = new Wheeled(numOfWheels);
+        this.type = BicycleType.MOUNTAIN;
     }
 
     @Override
-    public String describeSpecific(){return ", Number of Wheels: "+this.wheeled.getNumOfWheels()+", Bicycle Type: "+this.getType();}
+    public String className() {
+        return CLASS_NAME;
+    }
+
+    @Override
+    public String describeSpecific() {
+        String s = "";
+        s += this.wheeled.describeSpecific();
+        s += ", Bicycle Type: " + this.type;
+        return s;
+    }
 }

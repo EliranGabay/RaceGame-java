@@ -5,100 +5,90 @@
  */
 package game.arenas;
 
+import java.util.ArrayList;
+import game.arenas.exceptions.RacerLimitException;
+import game.arenas.exceptions.RacerTypeException;
 import game.racers.Racer;
-import game.arenas.exceptions.*;
 import utilities.Point;
 
-import java.util.ArrayList;
+public abstract class Arena {
 
-public class Arena {
-
+    private final static int MIN_Y_GAP = 10;
     private ArrayList<Racer> activeRacers;
-    private ArrayList<Racer> completedRacers;
-    private final double FRICTION;
-    private final int MAX_RACERS;
-    private final static int MIN_Y_GAP=10;
+    private ArrayList<Racer> compleatedRacers;
+
     private double length;
+    private final int MAX_RACERS;
+    private final double FRICTION;
 
-    /***
-     * this constructs a Arena with a length,maxRacers,friction
+    /**
+     *
      * @param length
+     *            the x value for the finish line
      * @param maxRacers
+     *            Maximum number of racers
      * @param friction
+     *            Coefficient of friction
+     *
      */
-    public Arena(double length, int maxRacers, double friction)
-    {
-        this.setLength(length);
-        this.MAX_RACERS=maxRacers;
-        this.FRICTION=friction;
-        activeRacers=new ArrayList<Racer>();
-        completedRacers=new ArrayList<Racer>();
-    }
-
-    /**
-     * addRacer function
-     * @param newRacer
-     * @throws RacerTypeException
-     * @throws RacerLimitException
-     */
-    public void addRacer(Racer newRacer) throws RacerTypeException,RacerLimitException
-    {
-        if (!(racerTypeArena(newRacer))) throw new RacerTypeException(newRacer,this);
-        else if (getActiveRacers().size() == getMAX_RACERS()) throw new RacerLimitException(getMAX_RACERS(), newRacer);
-        else activeRacers.add(newRacer);
-    }
-
-    public boolean racerTypeArena(Racer racer) {return false;}//Override method for check if the racer is appropriate to arena
-
-
-    public void initRace()
-    {
-        for (Racer racer : this.activeRacers) { racer.initRace(this,new Point(0,activeRacers.indexOf(racer)*MIN_Y_GAP),new Point(getLength(),activeRacers.indexOf(racer)*MIN_Y_GAP)); }
-    }
-
-    /**
-     * @return boolean value if has Active Racers
-     */
-    public boolean hasActiveRacers() { return(activeRacers.size()>0); }
-
-    public void playTurn()
-    {
-        for(Racer racer: this.activeRacers)racer.move(getFRICTION());
-        for(Racer racer: this.completedRacers)activeRacers.remove(racer);
-    }
-
-    public void crossFinishLine(Racer racer) { this.completedRacers.add(racer);}
-
-    public void showResults()//print finish racer
-    {
-        for (Racer racer : this.getCompletedRacers()) {
-            int place = this.getCompletedRacers().indexOf(racer) + 1;
-            System.out.println("#" + place + " -> " + racer.describeRacer());
-        }
-    }
-
-    //Getter and Setter
-    public double getFRICTION() {
-        return FRICTION;
-    }
-
-    public int getMAX_RACERS() {
-        return MAX_RACERS;
-    }
-
-    public double getLength() {
-        return length;
-    }
-
-    public void setLength(double length) {
+    protected Arena(double length, int maxRacers, double friction) {
         this.length = length;
+        this.MAX_RACERS = maxRacers;
+        this.FRICTION = friction;
+        this.activeRacers = new ArrayList<Racer>();
+        this.compleatedRacers = new ArrayList<Racer>();
+    }
+
+    public void addRacer(Racer newRacer) throws RacerLimitException, RacerTypeException {
+        if (this.activeRacers.size() == this.MAX_RACERS) {
+            throw new RacerLimitException(this.MAX_RACERS, newRacer.getSerialNumber());
+        }
+        this.activeRacers.add(newRacer);
+    }
+
+    public void crossFinishLine(Racer racer) {
+        this.compleatedRacers.add(racer);
     }
 
     public ArrayList<Racer> getActiveRacers() {
         return activeRacers;
     }
 
-    public ArrayList<Racer> getCompletedRacers() {
-        return completedRacers;
+    public ArrayList<Racer> getCompleatedRacers() {
+        return compleatedRacers;
+    }
+
+    public boolean hasActiveRacers() {
+        return this.activeRacers.size() > 0;
+    }
+
+    public void initRace() {
+        int y = 0;
+        for (Racer racer : this.activeRacers) {
+            Point s = new Point(0, y);
+            Point f = new Point(this.length, y);
+            racer.initRace(this, s, f);
+            y += Arena.MIN_Y_GAP;
+        }
+    }
+
+    public void playTurn() {
+        for (Racer racer : this.activeRacers) {
+            racer.move(this.FRICTION);
+        }
+
+        for (Racer r : this.compleatedRacers)
+            this.activeRacers.remove(r);
+    }
+
+    public void showResults() {
+        for (Racer r : this.compleatedRacers) {
+            String s = "#" + this.compleatedRacers.indexOf(r) + " -> ";
+            s += r.describeRacer();
+            System.out.println(s);
+        }
+        // for (int i = 0; i < this.activeRacers.size(); i++) {
+        // System.out.println("#" + (i + 1) + ": " + this.activeRacers.get(i));
+        // }
     }
 }

@@ -6,185 +6,102 @@
 package game.racers;
 
 import game.arenas.Arena;
-import utilities.EnumContainer.Color;
+import utilities.EnumContainer;
 import utilities.Fate;
 import utilities.Mishap;
 import utilities.Point;
 
+public abstract class Racer {
+    protected static int lastSerialNumber = 1;
 
-public class Racer {
-
-    private static int SERIAL_NUMBER=1;
     private int serialNumber;
     private String name;
-    private Point currentLocation,finish;
-    private double maxSpeed,acceleration,currentSpeed,failureProbability,tempAcceleration;
-    private Color color;
+    private Point currentLocation;
+    private Point finish;
     private Arena arena;
+    private double maxSpeed;
+    private double acceleration;
+    private double currentSpeed;
+    @SuppressWarnings("unused")
+    private double failureProbability;
+    private EnumContainer.Color color;
+
     private Mishap mishap;
 
-
-    /***
-     * this constructs a Racer with a name,acceleration,color
+    /**
      * @param name
      * @param maxSpeed
      * @param acceleration
      * @param color
      */
-    public Racer(String name, double maxSpeed, double acceleration, Color color)
-    {
-        this.setSerialNumber(SERIAL_NUMBER++);
-        this.setName(name);
-        this.setMaxSpeed(maxSpeed);
-        this.setAcceleration(acceleration);
-        this.setColor(color);
-        this.tempAcceleration=acceleration;
+    public Racer(String name, double maxSpeed, double acceleration, utilities.EnumContainer.Color color) {
+        this.serialNumber = Racer.lastSerialNumber++;
+        this.name = name;
+        this.maxSpeed = maxSpeed;
+        this.acceleration = acceleration;
+        this.color = color;
     }
 
-    //Methods
+    public abstract String className();
 
-    /***
-     * set the arena and finish point, move to start point.
-     * @param arena
-     * @param start
-     * @param finish
-     */
-    public void initRace(Arena arena, Point start, Point finish)
-    {
-        this.setArena(arena);
-        this.setCurrentLocation(start);
-        this.setFinish(finish);
+    public String describeRacer() {
+        String s = "";
+        s += "name: " + this.name + ", ";
+        s += "SerialNumber: " + this.serialNumber + ", ";
+        s += "maxSpeed: " + this.maxSpeed + ", ";
+        s += "acceleration: " + this.acceleration + ", ";
+        s += "color: " + this.color + ", ";
+        s = s.substring(0, s.length() - 2);
+        s += this.describeSpecific();
+        return s;
     }
 
-    /**
-     * move function and mishap
-     * @param friction
-     * @return currentLocation
-     */
-    public Point move(double friction)
-    {
+    public abstract String describeSpecific();
+
+    public int getSerialNumber() {
+        return serialNumber;
+    }
+
+    private boolean hasMishap() {
+        if (this.mishap != null && this.mishap.getTurnsToFix() == 0)
+            this.mishap = null;
+        return this.mishap != null;
+    }
+
+    public void initRace(Arena arena, Point start, Point finish) {
+        this.arena = arena;
+        this.currentLocation = new Point(start);
+        this.finish = new Point(finish);
+    }
+
+    public void introduce() {
+        System.out.println("[" + this.className() + "] " + this.describeRacer());
+    }
+
+    public Point move(double friction) {
+        double reductionFactor = 1;
+        if (!(this.hasMishap()) && Fate.breakDown()) {
+            this.mishap = Fate.generateMishap();
+            System.out.println(this.name + " Has a new mishap! (" + this.mishap + ")");
+        }
+
+        if (this.hasMishap()) {
+            reductionFactor = mishap.getReductionFactor();
+            this.mishap.nextTurn();
+        }
         if (this.currentSpeed < this.maxSpeed) {
-            this.setCurrentSpeed(this.currentSpeed + this.acceleration * friction);
+            this.currentSpeed += this.acceleration * friction * reductionFactor;
         }
         if (this.currentSpeed > this.maxSpeed) {
-            this.setCurrentSpeed(this.maxSpeed);
+            this.currentSpeed = this.maxSpeed;
         }
-        Point newLocation = new Point((this.currentLocation.getX() + (1 * this.currentSpeed)),
-                this.currentLocation.getY());
-        this.setCurrentLocation(newLocation);
+        double newX = (this.currentLocation.getX() + (this.currentSpeed));
+        Point newLocation = new Point(newX, this.currentLocation.getY());
+        this.currentLocation = newLocation;
 
         if (this.currentLocation.getX() >= this.finish.getX()) {
             this.arena.crossFinishLine(this);
         }
-
-        if(mishap==null)
-        {
-            if(Fate.breakDown())//create new mishap
-            {
-                mishap= Fate.generateMishap();
-                System.out.print(this.getName()+" Has a new mishap! "+mishap.toString()+"\n");
-            }
-        }
-        else
-        { //clear the mishap by turn
-            this.setAcceleration(this.getAcceleration()*mishap.getReductionFactor());
-            mishap.nextTurn();
-            if(mishap.getTurnsToFix()==0) { mishap=null; }
-        }
-
         return this.currentLocation;
     }
-
-    public String describeSpecific(){return "";}////Override method for print custom details
-
-    public String describeRacer(){return "name:"+ this.getName()+", SerialNumber:"+ this.getSerialNumber()+
-            ", maxSpeed:"+ this.getMaxSpeed()+ ", acceleration:"+this.tempAcceleration+ ", color:"+ this.getColor()+ describeSpecific();}
-
-    /***
-     * Prints all the details about the Racer by describeRacer,describeSpecific;
-      */
-    public void introduce()
-    {
-        System.out.print("["+this.className()+"] "+ this.describeRacer()+"\n");
-    }
-
-    /**
-     * @return Class name
-     */
-    public String className(){return this.getClass().getSimpleName();}
-
-    //Getter and Setter
-    public int getSerialNumber() { return serialNumber; }
-
-    public void setSerialNumber(int serialNumber) {
-        this.serialNumber = serialNumber;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Point getCurrentLocation() {
-        return currentLocation;
-    }
-
-    public void setCurrentLocation(Point currentLocation) {
-        this.currentLocation = currentLocation;
-    }
-
-    public Point getFinish() {
-        return finish;
-    }
-
-    public void setFinish(Point finish) {
-        this.finish = finish;
-    }
-
-    public double getMaxSpeed() {
-        return maxSpeed;
-    }
-
-    public void setMaxSpeed(double maxSpeed) {
-        this.maxSpeed = maxSpeed;
-    }
-
-    public double getAcceleration() {
-        return acceleration;
-    }
-
-    public void setAcceleration(double acceleration) {
-        this.acceleration = acceleration;
-    }
-
-    public double getCurrentSpeed() {
-        return currentSpeed;
-    }
-
-    public void setCurrentSpeed(double currentSpeed) {
-        this.currentSpeed = currentSpeed;
-    }
-
-    public double getFailureProbability() {
-        return failureProbability;
-    }
-
-    public void setFailureProbability(double failureProbability) {
-        this.failureProbability = failureProbability;
-    }
-
-    public Color getColor() {
-        return color;
-    }
-
-    public void setColor(Color color) {
-        this.color = color;
-    }
-
-    public Arena getArena() { return arena; }
-
-    public void setArena(Arena arena) { this.arena = arena; }
 }

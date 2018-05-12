@@ -5,16 +5,11 @@
  */
 package game.arenas.exceptions;
 
-import game.arenas.Arena;
-import game.racers.Racer;
-
+@SuppressWarnings("serial")
 public class RacerTypeException extends Exception {
 
-    private static final long serialVersionUID = 1L;
-
-    public RacerTypeException(Racer racer,Arena arena)
-    {
-        super("Invalid Racer of type ["+ racer.className()+"] for "+arena.getClass().getSimpleName()+".");
+    public RacerTypeException(String racerType, String arenaType) {
+        super("Invalid Racer of type \"" + racerType + "\" for " + arenaType + " arena.");
     }
 
 }

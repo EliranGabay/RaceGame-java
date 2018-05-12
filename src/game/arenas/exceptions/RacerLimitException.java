@@ -5,14 +5,15 @@
  */
 package game.arenas.exceptions;
 
-import game.racers.Racer;
-
+@SuppressWarnings("serial")
 public class RacerLimitException extends Exception {
 
-    private static final long serialVersionUID = 1L;
-
-    public RacerLimitException(int size, Racer racer)
-    {
-        super("Arena is full! ( "+size+" active racers exist).racer #"+racer.getSerialNumber()+ " was not added" );
+    /**
+     * @param ""
+     *            + max_racers
+     */
+    public RacerLimitException(int max_racers, int racerNumber) {
+        super("Arena is full! (" + max_racers + " active racers exist). racer #" + racerNumber + " was not added");
     }
+
 }

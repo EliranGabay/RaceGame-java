@@ -5,29 +5,19 @@
  */
 package game.racers;
 
-public  class Wheeled{
+public class Wheeled {
 
     private int numOfWheels;
 
-    /**
-     * this default constructs a Wheeled
-     */
-    public Wheeled()
-    {
-        this.setNumOfWheels(0);
+    public Wheeled(int numOfWheels) {
+        this.numOfWheels = numOfWheels;
     }
 
-    /**
-     * this constructs a Wheeled
-     * @param numOfWheels
-     */
-    public Wheeled(int numOfWheels)
-    {
-        this.setNumOfWheels(numOfWheels);
+    public String describeSpecific() {
+        return ", Number of Wheels: " + this.getNumOfWheels();
     }
 
-    //Getter and Setter
-    public int getNumOfWheels() { return numOfWheels; }
-
-    public void setNumOfWheels(int numOfWheels) { this.numOfWheels = numOfWheels; }
+    public int getNumOfWheels() {
+        return numOfWheels;
+    }
 }
