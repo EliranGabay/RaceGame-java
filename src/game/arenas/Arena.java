@@ -6,16 +6,20 @@
 package game.arenas;
 
 import java.util.ArrayList;
+import java.util.Observer;
+
 import game.arenas.exceptions.RacerLimitException;
 import game.arenas.exceptions.RacerTypeException;
 import game.racers.Racer;
 import utilities.Point;
 
-public abstract class Arena {
+public abstract class Arena implements Observer {
 
     private final static int MIN_Y_GAP = 10;
     private ArrayList<Racer> activeRacers;
     private ArrayList<Racer> compleatedRacers;
+    private ArrayList<Racer> brokenRacers;
+    private ArrayList<Racer> disabledRacers;
 
     private double length;
     private final int MAX_RACERS;
@@ -46,10 +50,6 @@ public abstract class Arena {
         this.activeRacers.add(newRacer);
     }
 
-    public void crossFinishLine(Racer racer) {
-        this.compleatedRacers.add(racer);
-    }
-
     public ArrayList<Racer> getActiveRacers() {
         return activeRacers;
     }
@@ -72,15 +72,6 @@ public abstract class Arena {
         }
     }
 
-    public void playTurn() {
-        for (Racer racer : this.activeRacers) {
-            racer.move(this.FRICTION);
-        }
-
-        for (Racer r : this.compleatedRacers)
-            this.activeRacers.remove(r);
-    }
-
     public void showResults() {
         for (Racer r : this.compleatedRacers) {
             String s = "#" + this.compleatedRacers.indexOf(r) + " -> ";
@@ -91,4 +82,5 @@ public abstract class Arena {
         // System.out.println("#" + (i + 1) + ": " + this.activeRacers.get(i));
         // }
     }
+
 }

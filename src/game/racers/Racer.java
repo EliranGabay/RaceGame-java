@@ -6,12 +6,13 @@
 package game.racers;
 
 import game.arenas.Arena;
+import javafx.beans.Observable;
 import utilities.EnumContainer;
 import utilities.Fate;
 import utilities.Mishap;
 import utilities.Point;
 
-public abstract class Racer {
+public abstract class Racer implements Runnable,Observable {
     protected static int lastSerialNumber = 1;
 
     private int serialNumber;
@@ -100,7 +101,7 @@ public abstract class Racer {
         this.currentLocation = newLocation;
 
         if (this.currentLocation.getX() >= this.finish.getX()) {
-            this.arena.crossFinishLine(this);
+
         }
         return this.currentLocation;
     }

@@ -30,4 +30,8 @@ public class Fate {
 		rand.setSeed(seed);
 	}
 
+	public static boolean breakDown(double failureProbability) {
+		return rand.nextFloat() <= failureProbability;
+		//return rand.nextBoolean();
+	}
 }
