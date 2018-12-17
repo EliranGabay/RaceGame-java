@@ -1,7 +1,5 @@
 /**
  * this class represent the LandArena as a Arena with all needed components
- * @version 29.42018
- * @author Eliran gabay 203062831
  */
 package game.arenas.land;
 import game.arenas.Arena;
