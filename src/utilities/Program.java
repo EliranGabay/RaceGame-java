@@ -22,10 +22,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import utilities.EnumContainer.Color;
 
-/**
- * @author Bar Ohayon
- *
- */
 public class Program {
 
 	private static Arena arena;
