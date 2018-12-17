@@ -1,7 +1,6 @@
 /**
  * this class represent the RowBoat as a NavalRacer with all needed components
  * @version 29.42018
- * @author Eliran gabay 203062831
  */
 package game.racers.naval;
 
