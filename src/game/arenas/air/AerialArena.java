@@ -1,7 +1,5 @@
 /**
  * this class represent the AerialArena as a Arena with all needed components
- * @version 29.42018
- * @author Eliran gabay 203062831
  */
 package game.arenas.air;
 import game.arenas.Arena;
