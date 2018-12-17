@@ -1,7 +1,5 @@
 /**
  * this class represent the Airplane as a AerialRacer with all needed components
- * @version 29.42018
- * @author Eliran gabay 203062831
  */
 package game.racers.air;
 
